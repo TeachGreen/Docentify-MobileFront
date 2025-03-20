@@ -1,18 +1,48 @@
-// This file is a fallback for using MaterialIcons on Android and web.
-
-import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+import { FontAwesome6 } from '@expo/vector-icons';
+//import FontAwesome6 from '@react-native-vector-icons/fontawesome6';
 import { SymbolWeight } from 'expo-symbols';
 import React from 'react';
 import { OpaqueColorValue, StyleProp, ViewStyle } from 'react-native';
 
-// Add your SFSymbol to MaterialIcons mappings here.
 const MAPPING = {
-  // See MaterialIcons here: https://icons.expo.fyi
-  // See SF Symbols in the SF Symbols app on Mac.
+  //Tabs icon mapping
   'house': 'house',
   'book-open': 'book-open',
   'ranking-star': 'ranking-star',
+  'user-large': 'user-large',
+
+  //Menu icon mapping
   'gear': 'gear',
+  'bell': 'bell',
+  'arrow-left': 'arrow-left',
+  'arrow-right': 'arrow-right',
+  'ellipsis-vertical': 'ellipsis-vertical',
+  'magnifying-glass': 'magnifying-glass',
+
+  //Input icon mapping
+  'eye': 'eye',
+  'eye-slash': 'eye-slash',
+
+  //Various icon mapping
+  'heart': 'heart',
+  'message': 'message',
+  'hourglass': 'hourglass',
+  'image': 'image',
+  'book-bookmark': 'book-bookmark',
+  'chart-pie': 'chart-pie',
+  'door-open': 'door-open',
+  'circle-exclamation': 'circle-exclamation',
+  'key': 'key',
+  'video': 'video',
+  'shield': 'shield',
+  'pen-to-square': 'pen-to-square',
+  'filter': 'filter',
+
+  //Rate app icon mapping
+  'face-frown': 'face-frown',
+  'face-meh': 'face-meh',
+  'face-smile': 'face-smile',
+  'face-grin-hearts': 'face-grin-hearts'
   
 } as Partial<
   Record<
@@ -23,22 +53,17 @@ const MAPPING = {
 
 export type IconSymbolName = keyof typeof MAPPING;
 
-/**
- * An icon component that uses native SFSymbols on iOS, and MaterialIcons on Android and web. This ensures a consistent look across platforms, and optimal resource usage.
- *
- * Icon `name`s are based on SFSymbols and require manual mapping to MaterialIcons.
- */
 export function IconSymbol({
   name,
   size = 24,
   color,
-  style,
+  iconStyle,
 }: {
   name: IconSymbolName;
   size?: number;
   color: string | OpaqueColorValue;
-  style?: StyleProp<ViewStyle>;
+  iconStyle?: StyleProp<ViewStyle>;
   weight?: SymbolWeight;
 }) {
-  return <FontAwesome6 color={color} size={size} name={MAPPING[name]} style={style} />;
+  return <FontAwesome6 color={color} size={size} name={MAPPING[name]} iconStyle={iconStyle} />;
 }
