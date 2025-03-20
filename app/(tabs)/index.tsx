@@ -1,71 +1,149 @@
-import { Image, StyleSheet, Platform, View, ScrollView } from 'react-native';
+import {StyleSheet, View, ScrollView, StatusBar } from 'react-native';
 import CourseCard from '@/components/docentify-components/CourseCard';
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
+import GreetingSection from '@/components/docentify-components/GreetingSection';
 import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
 import { LinearGradient } from 'expo-linear-gradient';
+import { IconSymbol } from '@/components/ui/IconSymbol';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function HomeScreen() {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: 'red' }}>
-      
-    <View id="ongoingCourses">
-      <View style={styles.trainTitleContainers}>
-        <ThemedText style={styles.typeCourseView}>Meus treinamentos</ThemedText>
-        <ThemedText style={styles.moreCourses}> VER MAIS</ThemedText>
-      </View>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        <View style={styles.container}>
-          <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={6} mandatory={true} />
-          <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={6} mandatory={true} />
-          <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={100} mandatory={false} />
-          <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={100} mandatory={false} />
-          <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={50} mandatory={false} />
+    
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#111111' }}>
+      <StatusBar  backgroundColor="#111111" barStyle="light-content"/>
+      <ScrollView showsVerticalScrollIndicator={false} style = {{backgroundColor: '#f6f6f6'}}>
+        
+        <View style={styles.navHeader}>
+          <View style={styles.leftContent}>
+              <IconSymbol size={32} name='gear' color='#263238'/>
+          </View>
+          <View style={styles.rightContent}>
+              <IconSymbol size={32} name='magnifying-glass' color='#263238'/>
+              <IconSymbol size={32} name='bell' color='#263238' />
+          </View>
         </View>
-      </ScrollView>
-    </View>
+        
+        <View>
+            <GreetingSection />
+        </View>
+        
+        <View style={styles.viewBody}>
+          <View id="ongoingCourses" style={styles.courseContainers}>
+            <View style={styles.trainTitleContainers}>
+              <ThemedText style={styles.typeCourseView}>Meus treinamentos</ThemedText>
+              <ThemedText style={styles.moreCourses}> VER MAIS</ThemedText>
+            </View>
 
-    <View id="newCourses">
-      <View style={styles.trainTitleContainers}>
-        <ThemedText style={styles.typeCourseView}>Novos na plataforma</ThemedText>
-        <ThemedText style={styles.moreCourses}> VER MAIS</ThemedText>
-      </View>
-      
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-      
-        <View style={styles.container}>
-          <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={6} mandatory={true} />
-          <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={6} mandatory={true} />
-          <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={100} mandatory={false} />
-          <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={100} mandatory={false} />
-          <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={50} mandatory={false} />
-        </View>
-      </ScrollView>
-    </View>
-      
-    <View id="recommendationCourses">
-      <View style={styles.trainTitleContainers}>
-        <ThemedText style={styles.typeCourseView}>Com base no seu perfil</ThemedText>
-        <ThemedText style={styles.moreCourses}> VER MAIS</ThemedText>
-      </View>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        <View style={styles.container}>
-          <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={6} mandatory={true} />
-          <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={6} mandatory={true} />
-          <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={100} mandatory={false} />
-          <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={100} mandatory={false} />
-          <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={50} mandatory={false} />
-        </View>
-      </ScrollView>
-    </View>
+            <View>
+              <LinearGradient 
+                  colors={["#F6F6F6", "rgba(246, 246, 246, 0)"]}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}
+                  style={styles.fadeLeft}
+                />
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                <View style={styles.container}>
+                  <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={6} mandatory={true} />
+                  <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={6} mandatory={true} />
+                  <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={100} mandatory={false} />
+                  <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={100} mandatory={false} />
+                  <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={50} mandatory={false} />
+                </View>
+              </ScrollView>
+              <LinearGradient colors={["rgba(246, 246, 246, 0)", "#F6F6F6"]}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}
+                  style={styles.fadeRight} />
+            </View>
+          </View>
 
-    </ParallaxScrollView>
+          <View id="newCourses" style={styles.courseContainers}>
+            <View style={styles.trainTitleContainers}>
+              <ThemedText style={styles.typeCourseView}>Novos na plataforma</ThemedText>
+              <ThemedText style={styles.moreCourses}> VER MAIS</ThemedText>
+            </View>
+
+            <View>
+              <LinearGradient 
+                  colors={["#F6F6F6", "rgba(246, 246, 246, 0)"]}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}
+                  style={styles.fadeLeft}
+                />
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              
+                <View style={styles.container}>
+                  <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={6} mandatory={true} />
+                  <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={6} mandatory={true} />
+                  <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={100} mandatory={false} />
+                  <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={100} mandatory={false} />
+                  <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphoness" progress={50} mandatory={false} />
+                </View>
+              </ScrollView>
+              <LinearGradient colors={["rgba(246, 246, 246, 0)", "#F6F6F6"]}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}
+                  style={styles.fadeRight} />
+            </View>
+          </View>
+            
+          <View id="recommendationCourses" style={styles.courseContainers}>
+            <View style={styles.trainTitleContainers}>
+              <ThemedText style={styles.typeCourseView}>Com base no seu perfil</ThemedText>
+              <ThemedText style={styles.moreCourses}> VER MAIS</ThemedText>
+            </View>
+
+            <View>
+              <LinearGradient 
+                  colors={["#F6F6F6", "rgba(246, 246, 246, 0)"]}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}
+                  style={styles.fadeLeft}
+                />
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                <View style={styles.container}>
+                  <CourseCard style={styles.cards} title="Fotografia Profissionaaaal com Smartphone" progress={6} mandatory={true} />
+                  <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={6} mandatory={true} />
+                  <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={100} mandatory={false} />
+                  <CourseCard style={styles.cards} title="Fotografia Profissionaaal com Smartphone" progress={100} mandatory={false} />
+                  <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={50} mandatory={false} />
+                </View>
+              </ScrollView>
+              <LinearGradient colors={["rgba(246, 246, 246, 0)", "#F6F6F6"]}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}
+                  style={styles.fadeRight} />
+            </View>
+          </View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  fadeRight: {
+    position: "absolute",
+    right: 0,
+    top: 0,
+    bottom: 0,
+    width: 30,
+    zIndex: 1,
+  },
+
+  greetingContainer: {
+    marginHorizontal: 16,
+  },
+
+  fadeLeft: {
+    position: "absolute",
+    left: 0,
+    top: 0,
+    bottom: 0,
+    width: 30,
+    zIndex: 1,
+  },
+
   trainTitle: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -107,11 +185,41 @@ const styles = StyleSheet.create({
     marginBottom: 16
   },
 
-  leftFade: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    height: '100%',
-    width: 50, // Adjust the width of the fade on the left
+  courseContainers :{
+    marginBottom: 16
   },
+ 
+  viewBody: {
+    padding: 24
+  },
+
+  navHeader:{
+    width: '100%',
+    backgroundColor: '#E9E9E9',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 16,
+    paddingHorizontal: 24
+    
+  },
+
+  icon: {
+    fontSize: 32,
+  },
+
+  leftContent: {
+    flexDirection: 'row', 
+    alignItems: 'center',
+    justifyContent: 'center',
+  
+  },
+
+  rightContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 16,
+
+  }
+  
 });
