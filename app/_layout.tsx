@@ -46,12 +46,67 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="(tabs)" />
+
+      //Configurações
+      <Stack.Screen 
+        name="docentify-screens/settings" 
+        options={{ headerShown: true, title: 'Configurações' }} 
+      />
+
+      //Definições de segurança
+      <Stack.Screen 
+        name="docentify-screens/safety" 
+        options={{ headerShown: true, title: 'Definições de segurança' }}
+      />
+
+      //Redefinir senha
+      <Stack.Screen 
+        name="docentify-screens/redefinePassword" 
+        options={{ headerShown: true, title: 'Redefinir senha' }}
+      />
+
+
+      //Resumo de curso opcional - não matriculado
+      <Stack.Screen 
+        name="docentify-screens/notSubscribedCourse" 
+        options={{ headerShown: true, title: 'Resumo curso fotografia' }} 
+      />
+
+      //Dentro de curso
+      <Stack.Screen 
+        name="docentify-screens/insideCourse" 
+        options={{ headerShown: true, title: 'Fotografia' }} 
+      />
+
+      //Atividade do tipo leitura
+      <Stack.Screen 
+        name="docentify-screens/readingActivity" 
+        options={{ headerShown: true, title: 'Leitura introdutória' }} 
+      />
+
+      //Atividade do tipo video
+      <Stack.Screen 
+        name="docentify-screens/videoActivity" 
+        options={{ headerShown: true, title: 'Video introdutório' }}
+      />
+
+      //Atividade do tipo infográfico
+      <Stack.Screen 
+        name="docentify-screens/imageActivity" 
+        options={{ headerShown: true, title: 'Infográfico introdutório' }}
+      />
+
+      //Atividade do tipo questionário
+      <Stack.Screen 
+        name="docentify-screens/examActivity" 
+        options={{ headerShown: true, title: 'Atividade avaliativa' }}
+      />
+
+      
+
+
+    </Stack>
   );
 }

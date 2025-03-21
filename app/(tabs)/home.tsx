@@ -1,10 +1,14 @@
-import {StyleSheet, View, ScrollView, StatusBar } from 'react-native';
+import {StyleSheet, View, ScrollView, StatusBar, Pressable } from 'react-native';
 import CourseCard from '@/components/docentify-components/CourseCard';
 import GreetingSection from '@/components/docentify-components/GreetingSection';
 import { ThemedText } from '@/components/ThemedText';
 import { LinearGradient } from 'expo-linear-gradient';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useRouter } from 'expo-router';
+import { Link } from 'expo-router';
+
+const router = useRouter();
 
 export default function HomeScreen() {
   return (
@@ -15,10 +19,10 @@ export default function HomeScreen() {
         
         <View style={styles.navHeader}>
           <View style={styles.leftContent}>
-              <IconSymbol size={32} name='gear' color='#263238'/>
+            <IconSymbol size={32} name='gear' color='#263238' onPress={() => router.push('/docentify-screens/settings')}/>
           </View>
           <View style={styles.rightContent}>
-              <IconSymbol size={32} name='magnifying-glass' color='#263238'/>
+              <IconSymbol size={32} name='magnifying-glass' color='#263238' />
               <IconSymbol size={32} name='bell' color='#263238' />
           </View>
         </View>
@@ -43,7 +47,10 @@ export default function HomeScreen() {
                 />
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                 <View style={styles.container}>
-                  <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={6} mandatory={true} />
+                  <Pressable onPress={() => router.push('/docentify-screens/insideCourse')}>
+                    <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={6} mandatory={true} />
+                    </Pressable>
+                  
                   <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={6} mandatory={true} />
                   <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={100} mandatory={false} />
                   <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={100} mandatory={false} />
@@ -218,7 +225,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 16,
+    gap: 32,
 
   }
   

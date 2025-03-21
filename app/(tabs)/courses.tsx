@@ -4,6 +4,9 @@ import CourseCard from '@/components/docentify-components/CourseCard';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ThemedText } from '@/components/ThemedText';
+import { useRouter } from 'expo-router';
+
+const router = useRouter();
 
 export default function CoursesScreen() {
   return (
@@ -13,7 +16,7 @@ export default function CoursesScreen() {
 
               <View style={styles.navHeader}>
                 <View style={styles.leftContent}>
-                  <IconSymbol size={32} name='gear' color='#263238'/>
+                  <IconSymbol size={32} name='gear' color='#263238' onPress={() => router.push('/docentify-screens/settings')}/>
                 </View>
                 <View style={styles.rightContent}>
                   <IconSymbol size={32} name='magnifying-glass' color='#263238'/>
@@ -87,7 +90,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 16,
+    gap: 32,
 
   },
 
