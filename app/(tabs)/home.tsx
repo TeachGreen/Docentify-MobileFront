@@ -1,12 +1,54 @@
-import {StyleSheet, View, ScrollView, StatusBar } from 'react-native';
+import {StyleSheet, View, ScrollView, StatusBar, Pressable } from 'react-native';
 import CourseCard from '@/components/docentify-components/CourseCard';
 import GreetingSection from '@/components/docentify-components/GreetingSection';
 import { ThemedText } from '@/components/ThemedText';
 import { LinearGradient } from 'expo-linear-gradient';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useRouter } from 'expo-router';
+import { useState, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const router = useRouter();
+const BASE_URL = 'http://wa-docentify-api-c8cddtecgqgueudb.brazilsouth-01.azurewebsites.net/api';
 
 export default function HomeScreen() {
+  const [courses, setCourses] = useState([]);
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const token = await AsyncStorage.getItem('token');
+
+        if (!token) {
+          console.warn('Token não encontrado');
+          return;
+        }
+
+        const response = await fetch(`${BASE_URL}/Course/User?page=1&amount=10`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Erro ao buscar cursos');
+        }
+
+        const data = await response.json();
+        setCourses(data); // Verifique se precisa usar data.items ou algo semelhante
+
+      } catch (error) {
+        console.error('Erro ao carregar cursos:', error);
+      }
+    };
+
+    fetchCourses();
+  }, []);
+
+
   return (
     
     <SafeAreaView style={{ flex: 1, backgroundColor: '#111111' }}>
@@ -15,11 +57,11 @@ export default function HomeScreen() {
         
         <View style={styles.navHeader}>
           <View style={styles.leftContent}>
-              <IconSymbol size={32} name='gear' color='#263238'/>
+            <IconSymbol size={32} name='gear' color='#263238' onPress={() => router.push('/docentify-screens/settings')}/>
           </View>
           <View style={styles.rightContent}>
-              <IconSymbol size={32} name='magnifying-glass' color='#263238'/>
-              <IconSymbol size={32} name='bell' color='#263238' />
+              <IconSymbol size={32} name='magnifying-glass' color='#263238' />
+
           </View>
         </View>
         
@@ -43,11 +85,12 @@ export default function HomeScreen() {
                 />
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                 <View style={styles.container}>
-                  <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={6} mandatory={true} />
-                  <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={6} mandatory={true} />
-                  <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={100} mandatory={false} />
-                  <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={100} mandatory={false} />
-                  <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={50} mandatory={false} />
+                  <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={6} mandatory={true} onPress={() => router.push('/docentify-screens/videoActivity')}/>
+                  
+                  <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={6} mandatory={true} onPress={() => router.push('/docentify-screens/notSubscribedCourse')} />
+                  <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={100} mandatory={false} onPress={() => router.push('/(tabs)/home')}/>
+                  <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={100} mandatory={false} onPress={() => router.push('/(tabs)/home')}/>
+                  <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={50} mandatory={false} onPress={() => router.push('/(tabs)/home')}/>
                 </View>
               </ScrollView>
               <LinearGradient colors={["rgba(246, 246, 246, 0)", "#F6F6F6"]}
@@ -73,11 +116,7 @@ export default function HomeScreen() {
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               
                 <View style={styles.container}>
-                  <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={6} mandatory={true} />
-                  <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={6} mandatory={true} />
-                  <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={100} mandatory={false} />
-                  <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={100} mandatory={false} />
-                  <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphoness" progress={50} mandatory={false} />
+                  
                 </View>
               </ScrollView>
               <LinearGradient colors={["rgba(246, 246, 246, 0)", "#F6F6F6"]}
@@ -102,11 +141,11 @@ export default function HomeScreen() {
                 />
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                 <View style={styles.container}>
-                  <CourseCard style={styles.cards} title="Fotografia Profissionaaaal com Smartphone" progress={6} mandatory={true} />
-                  <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={6} mandatory={true} />
-                  <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={100} mandatory={false} />
-                  <CourseCard style={styles.cards} title="Fotografia Profissionaaal com Smartphone" progress={100} mandatory={false} />
-                  <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={50} mandatory={false} />
+                  <CourseCard style={styles.cards} title="Fotografia Profissionaaaal com Smartphone" progress={6} mandatory={true} onPress={() => router.push('/(tabs)/home')}/>
+                  <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={6} mandatory={true} onPress={() => router.push('/(tabs)/home')}/>
+                  <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={100} mandatory={false} onPress={() => router.push('/(tabs)/home')}/>
+                  <CourseCard style={styles.cards} title="Fotografia Profissionaaal com Smartphone" progress={100} mandatory={false} onPress={() => router.push('/(tabs)/home')}/>
+                  <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={50} mandatory={false} onPress={() => router.push('/(tabs)/home')}/>
                 </View>
               </ScrollView>
               <LinearGradient colors={["rgba(246, 246, 246, 0)", "#F6F6F6"]}
@@ -218,7 +257,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 16,
+    gap: 32,
 
   }
   

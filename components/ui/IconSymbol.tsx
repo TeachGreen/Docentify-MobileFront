@@ -2,7 +2,7 @@ import { FontAwesome6 } from '@expo/vector-icons';
 //import FontAwesome6 from '@react-native-vector-icons/fontawesome6';
 import { SymbolWeight } from 'expo-symbols';
 import React from 'react';
-import { OpaqueColorValue, StyleProp, ViewStyle } from 'react-native';
+import { OpaqueColorValue, StyleProp, ViewStyle, Pressable } from 'react-native';
 
 const MAPPING = {
   //Tabs icon mapping
@@ -26,6 +26,7 @@ const MAPPING = {
   //Various icon mapping
   'heart': 'heart',
   'message': 'message',
+  'id-badge': 'id-badge',
   'hourglass': 'hourglass',
   'image': 'image',
   'book-bookmark': 'book-bookmark',
@@ -35,6 +36,7 @@ const MAPPING = {
   'key': 'key',
   'video': 'video',
   'shield': 'shield',
+  'file-text': 'file-text',
   'pen-to-square': 'pen-to-square',
   'filter': 'filter',
 
@@ -58,12 +60,18 @@ export function IconSymbol({
   size = 24,
   color,
   iconStyle,
+  onPress
 }: {
   name: IconSymbolName;
   size?: number;
   color: string | OpaqueColorValue;
   iconStyle?: StyleProp<ViewStyle>;
   weight?: SymbolWeight;
+  onPress?: () => void;
 }) {
-  return <FontAwesome6 color={color} size={size} name={MAPPING[name]} iconStyle={iconStyle} />;
+  return (
+    <Pressable onPress={onPress}  style={iconStyle}>
+      <FontAwesome6 color={color} size={size} name={MAPPING[name]} />
+    </Pressable>
+  );
 }

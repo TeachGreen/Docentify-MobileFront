@@ -1,16 +1,20 @@
 import React from 'react';
-import {View, Text, StyleSheet, ProgressBarAndroid, Platform} from 'react-native';
+import {View, Text, StyleSheet, ProgressBarAndroid, Platform, TouchableOpacity} from 'react-native';
 import {ProgressView} from '@react-native-community/progress-view';
 
-const CourseCard = ({title = 'Exemplo', progress = 6, mandatory = true, style}) => {
+const CourseCard = ({title = 'Exemplo', progress = 6, mandatory = true, style, onPress,}) => {
     return (
-        <View style={[styles.card, style]}>
+        <TouchableOpacity
+            onPress={onPress}
+            activeOpacity={0.8}
+            style={[styles.card, style]}
+        >
             <View style = {[styles.badge, {backgroundColor: mandatory ? '#FFCC99' : '#D4FFD3'}]}>
                 <Text style = {[styles.badgeText, {color: mandatory ? '#E96A00' : '#3B7636'}]}>
                     {mandatory ? 'Obrigatório' : 'Opcional'}
                 </Text>
             </View>
-          
+            
             <Text style = {styles.title} numberOfLines = {1}>
                 {title}
             </Text>
@@ -21,7 +25,7 @@ const CourseCard = ({title = 'Exemplo', progress = 6, mandatory = true, style}) 
                 <ProgressView progress={progress / 100} style={styles.progress} />
             )}
             <Text style={styles.progressText}> {progress}% concluído</Text>
-        </View>
+        </TouchableOpacity>
     );
 };
 

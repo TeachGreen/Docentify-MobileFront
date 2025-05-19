@@ -3,6 +3,9 @@ import RankingGreetingSection from '@/components/docentify-components/RankingGre
 import Table from '@/components/docentify-components/generalUi/RankingTable';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useRouter } from 'expo-router';
+
+const router = useRouter();
 
 const data = [
   { id: '1', name: 'React Native', duration: '4 weeks' },
@@ -19,11 +22,10 @@ export default function RankingScreen() {
 
         <View style={styles.navHeader}>
           <View style={styles.leftContent}>
-            <IconSymbol size={32} name='gear' color='#263238'/>
+            <IconSymbol size={32} name='gear' color='#263238' onPress={() => router.push('/docentify-screens/settings')}/>
           </View>
           <View style={styles.rightContent}>
             <IconSymbol size={32} name='magnifying-glass' color='#263238'/>
-            <IconSymbol size={32} name='bell' color='#263238' />
           </View>
         </View>
         
@@ -69,7 +71,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 16,
+    gap:32,
   },
 
   viewBody: {

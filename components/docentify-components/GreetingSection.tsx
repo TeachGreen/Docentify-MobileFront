@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { FontAwesome6 } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export default function GreetingSection() {
+  const [name, setName] = useState('');
   const [icon, setIcon] = useState('sun');
   const [greet, setGreet] = useState('Bom dia');
 
@@ -11,6 +13,11 @@ export default function GreetingSection() {
     const currentHour = new Date().getHours();
     setIcon(currentHour >= 6 && currentHour < 18 ? 'sun' : 'moon');
     setGreet(currentHour >= 6 && currentHour < 18? 'Bom dia' : 'Boa noite');
+    const buscarNome = async () => {
+      const nome = await AsyncStorage.getItem('name');
+      if (nome) setName(nome);
+    };
+    buscarNome();
   }, []);
 
   return (
@@ -20,7 +27,7 @@ export default function GreetingSection() {
     >
       <View style={styles.greetingsIcon}>
         <Text style={styles.greeting}>
-          {greet}, <Text style={styles.bold}>usuário!</Text>
+          {greet}, <Text style={styles.bold}>{name}!</Text>
         </Text>
         <FontAwesome6 name={icon} size={24} color="#142304" style={styles.icon} />
       </View>
