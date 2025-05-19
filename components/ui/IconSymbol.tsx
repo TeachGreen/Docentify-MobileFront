@@ -26,6 +26,7 @@ const MAPPING = {
   //Various icon mapping
   'heart': 'heart',
   'message': 'message',
+  'id-badge': 'id-badge',
   'hourglass': 'hourglass',
   'image': 'image',
   'book-bookmark': 'book-bookmark',
@@ -35,6 +36,7 @@ const MAPPING = {
   'key': 'key',
   'video': 'video',
   'shield': 'shield',
+  'file-text': 'file-text',
   'pen-to-square': 'pen-to-square',
   'filter': 'filter',
 

@@ -12,3 +12,10 @@ export default function SettingsScreen() {
     </View>
   );
 }
+
+/*
+ - Internacionalização
+ - Dark mode
+
+
+*/

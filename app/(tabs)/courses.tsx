@@ -20,7 +20,6 @@ export default function CoursesScreen() {
                 </View>
                 <View style={styles.rightContent}>
                   <IconSymbol size={32} name='magnifying-glass' color='#263238'/>
-                  <IconSymbol size={32} name='bell' color='#263238' />
                 </View>
               </View>
 

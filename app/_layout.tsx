@@ -46,8 +46,11 @@ export default function RootLayout() {
   }
 
   return (
+
+    
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="(tabs)" />
+
 
       //Configurações
       <Stack.Screen 
@@ -104,7 +107,18 @@ export default function RootLayout() {
         options={{ headerShown: true, title: 'Atividade avaliativa' }}
       />
 
-      
+      //Chatbot
+      <Stack.Screen 
+        name="docentify-screens/chatbot" 
+        options={{ headerShown: true, title: 'Conversa com IPzinho' }}
+      />
+
+      //Atualizar informações
+      <Stack.Screen 
+        name="docentify-screens/updateInfo" 
+        options={{ headerShown: true, title: 'Atualizar informações' }}
+      />
+
 
 
     </Stack>

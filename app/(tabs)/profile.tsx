@@ -1,168 +1,115 @@
-import { Image, StyleSheet, Platform, View, ScrollView } from 'react-native';
-import CourseCard from '@/components/docentify-components/CourseCard';
-import GreetingSection from '@/components/docentify-components/GreetingSection';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
+import React, { useState, useEffect } from 'react';
+import { Image, StyleSheet, Platform, View, ScrollView, SafeAreaView, StatusBar, Text, ImageBackground, TouchableOpacity } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import { LinearGradient } from 'expo-linear-gradient';
+import { IconSymbol } from '@/components/ui/IconSymbol';
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useRouter } from 'expo-router';
+
+const router = useRouter();
 
 export default function ProfileScreen() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+
+  useEffect(() => {
+
+    const buscarNomeeEmail = async () => {
+      const nome = await AsyncStorage.getItem('name');
+      if (nome) setName(nome);
+      const email = await AsyncStorage.getItem('email');
+      if (email) setEmail(email);
+    };
+    buscarNomeeEmail();
+  }, []);
+
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      
-      <View style={styles.navHeader}>
-
-      </View>
-      
-      <View>
-          <GreetingSection />
-      </View>
-      
-      <View style={styles.viewBody}>
-        <View id="ongoingCourses" style={styles.courseContainers}>
-          <View style={styles.trainTitleContainers}>
-            <ThemedText style={styles.typeCourseView}>Meus treinamentos</ThemedText>
-            <ThemedText style={styles.moreCourses}> VER MAIS</ThemedText>
-          </View>
-
-          <View>
-            <LinearGradient 
-                colors={["#F6F6F6", "rgba(246, 246, 246, 0)"]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                style={styles.fadeLeft}
-              />
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              <View style={styles.container}>
-                <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={6} mandatory={true} />
-                <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={6} mandatory={true} />
-                <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={100} mandatory={false} />
-                <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={100} mandatory={false} />
-                <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={50} mandatory={false} />
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#111111' }}>
+          <StatusBar  backgroundColor="#111111" barStyle="light-content"/>
+          <ScrollView showsVerticalScrollIndicator={false} style = {{backgroundColor: '#f6f6f6'}}>
+           
+           <View style={styles.container}>
+              <ImageBackground
+                source={require('../../assets/images/pfp.png')}
+                style={styles.profileImage}
+                resizeMode="cover"/>
+              <View style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start'}}>
+                <ThemedText style={{fontFamily: 'Poppins-SemiBold', fontSize: 24 , paddingTop: 24}}>{name}</ThemedText>
+                <ThemedText style={{fontFamily: 'Poppins-Medium', fontSize: 16}}>{email}</ThemedText>
               </View>
-            </ScrollView>
-            <LinearGradient colors={["rgba(246, 246, 246, 0)", "#F6F6F6"]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                style={styles.fadeRight} />
-          </View>
-        </View>
+            </View>
+           
+           
+           <View style={styles.choicesProfile}>
+                <TouchableOpacity onPress={() => router.push('/docentify-screens/updateInfo')} style={styles.choiceContainer} >
+                   <View style={styles.choiceIconInfo}>
+                      <IconSymbol size={32} name='id-badge' color='#263238' />
+                      <Text style={{fontFamily: 'Poppins-Medium', fontSize: 16}}>Informações pessoais</Text>
+                   </View>
+                   <View>
+                      <IconSymbol size={32} name='arrow-right' color='#263238' />
+                   </View>
+                </TouchableOpacity>
 
-        <View id="newCourses" style={styles.courseContainers}>
-          <View style={styles.trainTitleContainers}>
-            <ThemedText style={styles.typeCourseView}>Novos na plataforma</ThemedText>
-            <ThemedText style={styles.moreCourses}> VER MAIS</ThemedText>
-          </View>
+                <TouchableOpacity style={styles.choiceContainer} onPress={() => router.push('/docentify-screens/settings')}>
+                   <View style={styles.choiceIconInfo}>
+                      <IconSymbol size={32} name='gear' color='#263238' />
+                      <Text style={{fontFamily: 'Poppins-Medium', fontSize: 16}}>Configurações</Text>
+                   </View>
+                   <View>
+                      <IconSymbol size={32} name='arrow-right' color='#263238' />
+                   </View>
+                </TouchableOpacity>
 
-          <View>
-            <LinearGradient 
-                colors={["#F6F6F6", "rgba(246, 246, 246, 0)"]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                style={styles.fadeLeft}
-              />
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            
-              <View style={styles.container}>
-                <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={6} mandatory={true} />
-                <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={6} mandatory={true} />
-                <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={100} mandatory={false} />
-                <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={100} mandatory={false} />
-                <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphoness" progress={50} mandatory={false} />
-              </View>
-            </ScrollView>
-            <LinearGradient colors={["rgba(246, 246, 246, 0)", "#F6F6F6"]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                style={styles.fadeRight} />
-          </View>
-        </View>
-          
-        <View id="recommendationCourses" style={styles.courseContainers}>
-          <View style={styles.trainTitleContainers}>
-            <ThemedText style={styles.typeCourseView}>Com base no seu perfil</ThemedText>
-            <ThemedText style={styles.moreCourses}> VER MAIS</ThemedText>
-          </View>
+                
 
-          <View>
-            <LinearGradient 
-                colors={["#F6F6F6", "rgba(246, 246, 246, 0)"]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                style={styles.fadeLeft}
-              />
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              <View style={styles.container}>
-                <CourseCard style={styles.cards} title="Fotografia Profissionaaaal com Smartphone" progress={6} mandatory={true} />
-                <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={6} mandatory={true} />
-                <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={100} mandatory={false} />
-                <CourseCard style={styles.cards} title="Fotografia Profissionaaal com Smartphone" progress={100} mandatory={false} />
-                <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={50} mandatory={false} />
-              </View>
-            </ScrollView>
-            <LinearGradient colors={["rgba(246, 246, 246, 0)", "#F6F6F6"]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                style={styles.fadeRight} />
-          </View>
-        </View>
-      </View>
-    </ScrollView>
-    
+                <TouchableOpacity style={styles.choiceContainer} onPress={() => router.push('/docentify-screens/chatbot')}>
+                   <View style={styles.choiceIconInfo}>
+                      <IconSymbol size={32} name='message' color='#263238' />
+                      <Text style={{fontFamily: 'Poppins-Medium', fontSize: 16}}>Chat</Text>
+                   </View>
+                   <View>
+                      <IconSymbol size={32} name='arrow-right' color='#263238' />
+                   </View>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.choiceContainer}>
+                   <View style={styles.choiceIconInfo}>
+                      <IconSymbol size={32} name='shield' color='#263238' />
+                      <Text style={{fontFamily: 'Poppins-Medium', fontSize: 16}}>Suporte</Text>
+                   </View>
+                   <View>
+                      <IconSymbol size={32} name='arrow-right' color='#263238' />
+                   </View>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.choiceContainer}>
+                   <View style={styles.choiceIconInfo}>
+                      <IconSymbol size={32} name='door-open' color='#263238' />
+                      <Text style={{fontFamily: 'Poppins-Medium', fontSize: 16}}>Encerrar sessão</Text>
+                   </View>
+                   <View>
+                      <IconSymbol size={32} name='arrow-right' color='#263238' />
+                   </View>
+                </TouchableOpacity>
+           </View>
+
+
+          </ScrollView>
+        </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  fadeRight: {
-    position: "absolute",
-    right: 0,
-    top: 0,
-    bottom: 0,
-    width: 30,
-    zIndex: 1,
-  },
 
-  greetingContainer: {
-    marginHorizontal: 16,
-    marginTop: 20,
-    marginBottom: 10,
-  },
-
-  fadeLeft: {
-    position: "absolute",
-    left: 0,
-    top: 0,
-    bottom: 0,
-    width: 30,
-    zIndex: 1,
-  },
-
-  trainTitle: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    
-  },
-
-  typeCourseView: {
-    fontFamily: 'Poppins-SemiBold'
-  },
-
-  moreCourses:{
-    fontFamily: 'Poppins-Medium'
-  },
-
-
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
   
   container: {
     flexDirection: "row", 
     alignItems: "center",
-    
-    paddingVertical: 10
+    gap: 24,
+    paddingVertical: 10,
+    marginLeft: 24,
+    marginTop: 40,
+    marginBottom: 36
   },
 
   cards: {
@@ -192,6 +139,38 @@ const styles = StyleSheet.create({
 
   icon: {
     fontSize: 32,
+  },
+  
+  choiceContainer:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+
+    paddingVertical: 16,
+    paddingHorizontal: 24,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E9E9E9',
+    marginBottom: 16,
+    marginHorizontal: 16,
+    
+  },
+
+  choiceIconInfo:{
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 16,
+  },
+
+  profileImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 50, 
+    overflow: 'hidden', 
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  imageStyle: {
+    borderRadius: 50, 
   },
   
 });
