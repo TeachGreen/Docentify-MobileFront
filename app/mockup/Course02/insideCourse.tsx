@@ -7,43 +7,37 @@ import { useState, useEffect } from 'react';
 const router = useRouter();
 
 const courseStructure = [
+
   {
-    title: 'Imagem',
-    type: 'Imagem',
-    icon: 'check-circle',
-    completed: true,
-  },
-  {
-    title: 'Infográfico de design thinking...',
-    type: 'Imagem',
-    icon: 'image',
-  },
-  /*{
-    title: 'Atividade introdutória X',
-    type: 'Atividade (opcional)',
-    icon: 'file-text',
-  },*/
-  {
-    title: 'Leitura introdutória X',
+    title: 'Introdução a fotografia com celular',
     type: 'Leitura',
     icon: 'book-bookmark',
+    completed: false,
+    onPress: () => router.push('/mockup/Course02/readingActivity01'),
   },
   {
-    title: '5 DICAS PARA FAZER BOAS FOTOS ',
-    type: 'Vídeo',
-    icon: 'video',
-    onPress: () => router.push('/docentify-screens/videoActivity'),
+    title: 'Utilizando editores de imagem',
+    type: 'Leitura',
+    icon: 'book-bookmark',
+    completed: false,
+    onPress: () => router.push('/mockup/Course02/readingActivity02'),
   },
   {
-    title: 'Vídeo introdutório X',
+    title: 'Luz e ângulo de fotos',
+    type: 'Leitura',
+    icon: 'book-bookmark',
+    completed: false,
+    onPress: () => router.push('/mockup/Course02/readingActivity03'),
+  },
+  
+  {
+    title: 'Cinema e fotografia',
     type: 'Vídeo',
     icon: 'video',
+    completed: false,
+    onPress: () => router.push('/mockup/Course02/videoActivity'),
   },
-   /*{
-    title: 'Atividade introdutória X',
-    type: 'Atividade (obrigatória)',
-    icon: 'file-text',
-  },*/
+   
 ];
 
 export default function CourseStructure() {
@@ -52,7 +46,7 @@ export default function CourseStructure() {
       <StatusBar backgroundColor="#111111" barStyle="light-content" />
       <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: '#f6f6f6' }}>
         <ImageBackground
-          source={require('../../assets/images/pencil.jpg')}
+          source={{uri: 'https://blog.portoseguro.com.br/wordpress/wp-content/uploads/2022/01/foto-com-celular.jpg'}}
           style={styles.imageBackground}
         >
           <LinearGradient
@@ -60,9 +54,9 @@ export default function CourseStructure() {
             style={styles.gradient}
           />
           <View style={styles.overlayContent}>
-            <Text style={styles.moduleType}>Obrigatório</Text>
-            <Text style={styles.courseTitle}>Design Thinking em sala de aula</Text>
-            <Text style={styles.progressText}>6% concluído</Text>
+            <Text style={styles.moduleType}>Opcional</Text>
+            <Text style={styles.courseTitle}>Fotografia com smartphone</Text>
+            <Text style={styles.progressText}>0% concluído</Text>
           </View>
         </ImageBackground>
 
@@ -111,7 +105,7 @@ const styles = StyleSheet.create({
     zIndex: 2,
   },
   moduleType: {
-    backgroundColor: '#FFA726',
+    backgroundColor: '#68BE12',
     color: '#fff',
     alignSelf: 'flex-start',
     paddingHorizontal: 8,

@@ -2,16 +2,16 @@ import React from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 
 const data = [
-    { id: '1', position: '1º' , name: 'Pietra Ferreira', points: '250', email: 'pietra.ferreira@dom.com' },
-    { id: '2', position: '2º' , name: 'Pietra Ferreira', points: '250', email: 'pietra.ferreira@dom.com' },
-    { id: '3', position: '3º' , name: 'Pietra Ferreira', points: '250', email: 'pietra.ferreira@dom.com' },
-    { id: '4', position: '4º' , name: 'Pietra Ferreira', points: '250', email: 'pietra.ferreira@dom.com' },
-    { id: '5', position: '5º' , name: 'Pietra Ferreira', points: '250', email: 'pietra.ferreira@dom.com' },
-    { id: '6', position: '6º' , name: 'Pietra Ferreira', points: '250', email: 'pietra.ferreira@dom.com' },
-    { id: '7', position: '7º' , name: 'Pietra Ferreira', points: '250', email: 'pietra.ferreira@dom.com' },
-    { id: '8', position: '8º' , name: 'Pietra Ferreira', points: '250', email: 'pietra.ferreira@dom.com' },
-    { id: '9', position: '9º' , name: 'Pietra Ferreira', points: '250', email: 'pietra.ferreira@dom.com' },
-    { id: '10', position: '10º' , name: 'Pietra Ferreira', points: '250', email: 'pietra.ferreira@dom.com' },
+    { id: '1', position: '1º' , name: 'Pedro Tejon', points: '0', email: 'pedrohtejon@gmail.com' },
+    { id: '2', position: '2º' , name: '', points: '0', email: '' },
+    { id: '3', position: '3º' , name: '', points: '0', email: '' },
+    { id: '4', position: '4º' , name: '', points: '0', email: '' },
+    { id: '5', position: '5º' , name: '', points: '0', email: '' },
+    { id: '6', position: '6º' , name: '', points: '0', email: '' },
+    { id: '7', position: '7º' , name: '', points: '0', email: '' },
+    { id: '8', position: '8º' , name: '', points: '0', email: '' },
+    { id: '9', position: '9º' , name: '', points: '0', email: '' },
+    { id: '10', position: '10º' , name: '', points: '0', email: '' },
 ];
 
 const Table = () => {

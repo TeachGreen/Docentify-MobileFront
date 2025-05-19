@@ -36,10 +36,9 @@ export default function RankingScreen() {
         <View style={styles.viewBody}>
           <View style={styles.filterSection}>
             <View style={styles.filterTitle}>
-              <Text style={{fontSize: 24, fontFamily: 'Poppins-Medium'}}>Filtragem de ranking</Text>
-              <IconSymbol size={24} name='filter' color='#263238'/>
+          
             </View>
-            <Text style={{fontSize: 16, fontFamily: 'Poppins-Regular', color: '#53646D'}}>Utilize o filtros ou a barra de pesquisa abaixo para navegar pelo ranking de professores mais participativos na plataforma.</Text>
+            <Text style={{fontSize: 16, fontFamily: 'Poppins-Regular', color: '#53646D'}}>Navegue pelo ranking de professores mais participativos na plataforma.</Text>
           </View>
         </View>
 

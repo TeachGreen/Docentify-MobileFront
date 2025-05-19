@@ -7,43 +7,31 @@ import { useState, useEffect } from 'react';
 const router = useRouter();
 
 const courseStructure = [
+
   {
-    title: 'Imagem',
-    type: 'Imagem',
-    icon: 'check-circle',
-    completed: true,
-  },
-  {
-    title: 'Infográfico de design thinking...',
+    title: 'O marketing de conteúdo',
     type: 'Imagem',
     icon: 'image',
+    completed: false,
+    onPress: () => router.push('/mockup/Course03/imageActivity'),
   },
-  /*{
-    title: 'Atividade introdutória X',
-    type: 'Atividade (opcional)',
-    icon: 'file-text',
-  },*/
   {
-    title: 'Leitura introdutória X',
+    title: 'Introdução a estratégia de marketing',
     type: 'Leitura',
     icon: 'book-bookmark',
+    completed: false,
+    onPress: () => router.push('/mockup/Course03/readingActivity'),
   },
+ 
+  
   {
-    title: '5 DICAS PARA FAZER BOAS FOTOS ',
+    title: 'Marketing para iniciantes',
     type: 'Vídeo',
     icon: 'video',
-    onPress: () => router.push('/docentify-screens/videoActivity'),
+    completed: false,
+    onPress: () => router.push('/mockup/Course03/videoActivity'),
   },
-  {
-    title: 'Vídeo introdutório X',
-    type: 'Vídeo',
-    icon: 'video',
-  },
-   /*{
-    title: 'Atividade introdutória X',
-    type: 'Atividade (obrigatória)',
-    icon: 'file-text',
-  },*/
+   
 ];
 
 export default function CourseStructure() {
@@ -52,7 +40,7 @@ export default function CourseStructure() {
       <StatusBar backgroundColor="#111111" barStyle="light-content" />
       <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: '#f6f6f6' }}>
         <ImageBackground
-          source={require('../../assets/images/pencil.jpg')}
+          source={{uri: 'https://netshow.me/wp-content/uploads/2023/02/marketing-de-conteudo-1.png'}}
           style={styles.imageBackground}
         >
           <LinearGradient
@@ -60,9 +48,9 @@ export default function CourseStructure() {
             style={styles.gradient}
           />
           <View style={styles.overlayContent}>
-            <Text style={styles.moduleType}>Obrigatório</Text>
-            <Text style={styles.courseTitle}>Design Thinking em sala de aula</Text>
-            <Text style={styles.progressText}>6% concluído</Text>
+            <Text style={styles.moduleType}>Opcional</Text>
+            <Text style={styles.courseTitle}>Estratégia de marketing</Text>
+            <Text style={styles.progressText}>0% concluído</Text>
           </View>
         </ImageBackground>
 
@@ -111,7 +99,7 @@ const styles = StyleSheet.create({
     zIndex: 2,
   },
   moduleType: {
-    backgroundColor: '#FFA726',
+    backgroundColor: '#68BE12',
     color: '#fff',
     alignSelf: 'flex-start',
     paddingHorizontal: 8,

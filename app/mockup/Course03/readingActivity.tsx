@@ -14,31 +14,25 @@ const router = useRouter();
 
 export default function videoActivity(){
      const [isChecked, setChecked] = useState(false);
-  
-    const videoUrl = 'https://www.youtube.com/embed/ZDc17pyLeu0?si=8Sl1bxO31ztN-xTt';
 
     return(
         <SafeAreaView style={{ flex: 1, backgroundColor: '#111111' }}>
             <StatusBar  backgroundColor="#111111" barStyle="light-content"/>
             <ScrollView showsVerticalScrollIndicator={false} style = {{backgroundColor: '#f6f6f6', paddingLeft: 24, paddingRight: 24}}>
                 <View style ={styles.activityHeader}>
-                    <Text style={styles.etiqueta}>Obrigatório</Text>
-                    <Text style={styles.titulo}>Design Thinking em sala de aula</Text>
+                    <Text style={styles.etiqueta}>Opcional</Text>
+                    <Text style={styles.titulo}>Estratégia de marketing</Text>
                 </View>
-               
-                <View style={styles.videoContainer}>
-                    <WebView
-                    javaScriptEnabled={true}
-                    domStorageEnabled={true}
-                    source={{ uri: videoUrl }}
-                    style={styles.video}
-                    />
-                </View>
-
-                <Text style={styles.subtitulo}>Descrição de vídeo:</Text>
+            
+                <Text style={styles.subtitulo}>Introdução a estratégia de marketing</Text>
                 <Text style={styles.descricao}>
-                    Design thinking é uma abordagem centrada no ser humano para a resolução de problemas complexos e desenvolvimento de ideias inovadoras. Originado no campo do design, esse método se popularizou por sua capacidade de integrar criatividade, empatia e análise para encontrar soluções eficazes.
-                    {'\n'}Em seu cerne, o design thinking envolve uma série de fases interativas: entender o problema e as necessidades do usuário...
+
+                Por trás de toda marca de sucesso existe uma estratégia de marketing bem pensada. Mais do que simplesmente divulgar um produto ou serviço, o marketing estratégico envolve planejamento, posicionamento e uma boa compreensão do público-alvo.
+{'\n'}
+Nesta introdução, você vai entender o que é uma estratégia de marketing, por que ela é tão importante e como ela guia todas as ações de comunicação e vendas de uma empresa. Vamos explorar conceitos-chave como persona, funil de vendas, proposta de valor e canais de divulgação.
+{'\n'}
+O objetivo aqui é mostrar como pensar de forma estratégica: saber onde sua marca está, onde quer chegar e quais passos seguir para alcançar os resultados desejados. Seja para um negócio já existente ou um projeto que está começando, entender os fundamentos da estratégia de marketing é o primeiro passo para crescer de forma sólida e eficiente.
+                
                 </Text>
 
 
@@ -50,7 +44,7 @@ export default function videoActivity(){
                     <Text style={styles.checkboxLabel}>Confirmo que realizei a leitura do conteúdo.</Text>
                 </View>
 
-                <TouchableOpacity disabled={!isChecked}>
+                <TouchableOpacity disabled={!isChecked} onPress={() => router.push('/mockup/Course03/videoActivity')}>
                     <LinearGradient
                         colors={['#B4F757', '#80ED99']}
                         start={{ x: 0, y: 0 }}
@@ -69,17 +63,18 @@ export default function videoActivity(){
 
 const styles = StyleSheet.create({
   activityHeader: {
-    padding: 20,
-    backgroundColor: '#fff',
+    paddingTop: 20,
+    paddingBottom: 20,
+
   },
   etiqueta: {
-    backgroundColor: '#FECF9F',
+    backgroundColor: '#d4f5b3',
     alignSelf: 'flex-start',
     paddingHorizontal: 12,
     paddingVertical: 4,
     borderRadius: 6,
     fontWeight: 'bold',
-    color: '#6B3D00',
+    color: '#68BE12',
     marginBottom: 10,
   },
   titulo: {

@@ -31,19 +31,20 @@ export default function CoursesScreen() {
               <View style={styles.viewBody}>
                   <View style={styles.filterSection}>
                     <View style={styles.filterTitle}>
-                      <Text style={{fontSize: 24, fontFamily: 'Poppins-Medium'}}>Filtragem de treinamentos</Text>
-                      <IconSymbol size={24} name='filter' color='#263238'/>
+                      <Text style={{fontSize: 24, fontFamily: 'Poppins-Medium'}}>Todos os treinamentos</Text>
+                      
                     </View>
-                    <Text style={{fontSize: 16, fontFamily: 'Poppins-Regular', color: '#53646D'}}>Utilize os filtros ou a barra de pesquisa abaixo para encontrar os treinamentos desejados.</Text>
+                    <Text style={{fontSize: 16, fontFamily: 'Poppins-Regular', color: '#53646D'}}>Navegue pelos treinamentos disponíveis para sua instituição.</Text>
                   </View>
               </View>
 
               <View style={styles.container}>
-                <CourseCard style={styles.cards} title="Fotografia Profissionaaaal com Smartphone" progress={6} mandatory={true} />
-                <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={6} mandatory={true} />
-                <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={100} mandatory={false} />
-                <CourseCard style={styles.cards} title="Fotografia Profissionaaal com Smartphone" progress={100} mandatory={false} />
-                <CourseCard style={styles.cards} title="Fotografia Profissional com Smartphone" progress={50} mandatory={false} />
+               <CourseCard style={styles.cards} title="Introdução ao Docentify" progress={0} mandatory={true} onPress={() => router.push('/mockup/Course05/insideCourse')}/>
+               <CourseCard style={styles.cards} title="Design Thinking em sala de aula" progress={0} mandatory={true} onPress={() => router.push('/mockup/Course01/insideCourse')}/>
+                  
+               <CourseCard style={styles.cards} title="Fotografia com Smartphone" progress={0} mandatory={false} onPress={() => router.push('/mockup/Course02/notSubscribedCourse')} />
+               <CourseCard style={styles.cards} title="Estratégia de marketing" progress={0} mandatory={false} onPress={() => router.push('/mockup/Course03/insideCourse')}/>
+               <CourseCard style={styles.cards} title="Python básico" progress={0} mandatory={false} onPress={() => router.push('/mockup/Course04/insideCourse')}/>
               </View>
             </ScrollView>
     </SafeAreaView>

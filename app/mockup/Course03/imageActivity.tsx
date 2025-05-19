@@ -1,4 +1,4 @@
-import {StyleSheet, View, ScrollView, StatusBar, SafeAreaView, TouchableOpacity, Dimensions, Text } from 'react-native';
+import {StyleSheet, View, ScrollView, StatusBar, SafeAreaView, TouchableOpacity, Dimensions, Text, ImageBackground } from 'react-native';
 import Checkbox from 'expo-checkbox';
 
 import CourseCard from '@/components/docentify-components/CourseCard';
@@ -14,32 +14,22 @@ const router = useRouter();
 
 export default function videoActivity(){
      const [isChecked, setChecked] = useState(false);
-  
-    const videoUrl = 'https://www.youtube.com/embed/ZDc17pyLeu0?si=8Sl1bxO31ztN-xTt';
 
     return(
         <SafeAreaView style={{ flex: 1, backgroundColor: '#111111' }}>
             <StatusBar  backgroundColor="#111111" barStyle="light-content"/>
             <ScrollView showsVerticalScrollIndicator={false} style = {{backgroundColor: '#f6f6f6', paddingLeft: 24, paddingRight: 24}}>
                 <View style ={styles.activityHeader}>
-                    <Text style={styles.etiqueta}>Obrigatório</Text>
-                    <Text style={styles.titulo}>Design Thinking em sala de aula</Text>
-                </View>
-               
-                <View style={styles.videoContainer}>
-                    <WebView
-                    javaScriptEnabled={true}
-                    domStorageEnabled={true}
-                    source={{ uri: videoUrl }}
-                    style={styles.video}
-                    />
+                    <Text style={styles.etiqueta}>Opcional</Text>
+                    <Text style={styles.titulo}>Estratégia de marketing</Text>
                 </View>
 
-                <Text style={styles.subtitulo}>Descrição de vídeo:</Text>
-                <Text style={styles.descricao}>
-                    Design thinking é uma abordagem centrada no ser humano para a resolução de problemas complexos e desenvolvimento de ideias inovadoras. Originado no campo do design, esse método se popularizou por sua capacidade de integrar criatividade, empatia e análise para encontrar soluções eficazes.
-                    {'\n'}Em seu cerne, o design thinking envolve uma série de fases interativas: entender o problema e as necessidades do usuário...
-                </Text>
+                <ImageBackground
+                                    source={{uri: 'https://marketingconteudo.com/wp-content/uploads/2020/06/metodologia-de-marketing-digital.png'}}
+                                    style={styles.imageBackground}
+                ></ImageBackground>
+            
+            
 
 
                 <View style={styles.checkboxContainer}>
@@ -50,7 +40,7 @@ export default function videoActivity(){
                     <Text style={styles.checkboxLabel}>Confirmo que realizei a leitura do conteúdo.</Text>
                 </View>
 
-                <TouchableOpacity disabled={!isChecked}>
+                <TouchableOpacity disabled={!isChecked} onPress={() => router.push('/mockup/Course03/readingActivity')}>
                     <LinearGradient
                         colors={['#B4F757', '#80ED99']}
                         start={{ x: 0, y: 0 }}
@@ -68,18 +58,19 @@ export default function videoActivity(){
 };
 
 const styles = StyleSheet.create({
-  activityHeader: {
-    padding: 20,
-    backgroundColor: '#fff',
+   activityHeader: {
+    paddingTop: 20,
+    paddingBottom: 20,
+
   },
   etiqueta: {
-    backgroundColor: '#FECF9F',
+    backgroundColor: '#d4f5b3',
     alignSelf: 'flex-start',
     paddingHorizontal: 12,
     paddingVertical: 4,
     borderRadius: 6,
     fontWeight: 'bold',
-    color: '#6B3D00',
+    color: '#68BE12',
     marginBottom: 10,
   },
   titulo: {
@@ -124,5 +115,12 @@ const styles = StyleSheet.create({
     color: '#1E1E1E',
     fontWeight: 'bold',
     fontSize: 16,
+  },
+
+  imageBackground:{
+    height: '100%',
+    justifyContent: 'flex-end',
+    paddingHorizontal: 20,
+    paddingBottom: 20,
   },
 });

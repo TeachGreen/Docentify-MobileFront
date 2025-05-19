@@ -14,31 +14,23 @@ const router = useRouter();
 
 export default function videoActivity(){
      const [isChecked, setChecked] = useState(false);
-  
-    const videoUrl = 'https://www.youtube.com/embed/ZDc17pyLeu0?si=8Sl1bxO31ztN-xTt';
 
     return(
         <SafeAreaView style={{ flex: 1, backgroundColor: '#111111' }}>
             <StatusBar  backgroundColor="#111111" barStyle="light-content"/>
             <ScrollView showsVerticalScrollIndicator={false} style = {{backgroundColor: '#f6f6f6', paddingLeft: 24, paddingRight: 24}}>
                 <View style ={styles.activityHeader}>
-                    <Text style={styles.etiqueta}>Obrigatório</Text>
-                    <Text style={styles.titulo}>Design Thinking em sala de aula</Text>
+                    <Text style={styles.etiqueta}>Opcional</Text>
+                    <Text style={styles.titulo}>Fotografia com Smartphone</Text>
                 </View>
-               
-                <View style={styles.videoContainer}>
-                    <WebView
-                    javaScriptEnabled={true}
-                    domStorageEnabled={true}
-                    source={{ uri: videoUrl }}
-                    style={styles.video}
-                    />
-                </View>
-
-                <Text style={styles.subtitulo}>Descrição de vídeo:</Text>
+            
+                <Text style={styles.subtitulo}>Utilizando editores de imagem</Text>
                 <Text style={styles.descricao}>
-                    Design thinking é uma abordagem centrada no ser humano para a resolução de problemas complexos e desenvolvimento de ideias inovadoras. Originado no campo do design, esse método se popularizou por sua capacidade de integrar criatividade, empatia e análise para encontrar soluções eficazes.
-                    {'\n'}Em seu cerne, o design thinking envolve uma série de fases interativas: entender o problema e as necessidades do usuário...
+                    A fotografia com celular se tornou parte do nosso dia a dia. Com as câmeras cada vez mais avançadas nos smartphones, é possível capturar imagens incríveis sem precisar de equipamentos profissionais. Mas, para ir além das fotos casuais, é importante entender alguns princípios básicos da fotografia.
+{'\n'}
+Nesta introdução, vamos explorar os fundamentos que vão te ajudar a tirar fotos com mais intenção e qualidade. Vamos falar sobre composição, luz, foco e enquadramento — elementos essenciais para transformar uma foto comum em uma imagem que realmente chama a atenção.
+{'\n'}
+Você também vai conhecer as principais funções da câmera do seu celular e como aproveitá-las ao máximo. Entender como usar bem o que você já tem nas mãos é o primeiro passo para evoluir como fotógrafo ou fotógrafa.
                 </Text>
 
 
@@ -50,7 +42,7 @@ export default function videoActivity(){
                     <Text style={styles.checkboxLabel}>Confirmo que realizei a leitura do conteúdo.</Text>
                 </View>
 
-                <TouchableOpacity disabled={!isChecked}>
+                <TouchableOpacity disabled={!isChecked} onPress={() => router.push('/mockup/Course02/readingActivity02')}>
                     <LinearGradient
                         colors={['#B4F757', '#80ED99']}
                         start={{ x: 0, y: 0 }}
@@ -69,17 +61,18 @@ export default function videoActivity(){
 
 const styles = StyleSheet.create({
   activityHeader: {
-    padding: 20,
-    backgroundColor: '#fff',
+    paddingTop: 20,
+    paddingBottom: 20,
+
   },
   etiqueta: {
-    backgroundColor: '#FECF9F',
+    backgroundColor: '#d4f5b3',
     alignSelf: 'flex-start',
     paddingHorizontal: 12,
     paddingVertical: 4,
     borderRadius: 6,
     fontWeight: 'bold',
-    color: '#6B3D00',
+    color: '#68BE12',
     marginBottom: 10,
   },
   titulo: {

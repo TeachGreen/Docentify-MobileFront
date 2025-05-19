@@ -8,37 +8,18 @@ const router = useRouter();
 
 const courseStructure = [
   {
-    title: 'Imagem',
-    type: 'Imagem',
-    icon: 'check-circle',
-    completed: true,
-  },
-  {
-    title: 'Infográfico de design thinking...',
-    type: 'Imagem',
-    icon: 'image',
+    title: 'Introdução ao Docentify: sua plataforma de aprendizado',
+    type: 'Vídeo',
+    icon: 'video',
+    completed:false,
+    onPress: () => router.push('/mockup/Course05/videoActivity'),
   },
   /*{
     title: 'Atividade introdutória X',
     type: 'Atividade (opcional)',
     icon: 'file-text',
   },*/
-  {
-    title: 'Leitura introdutória X',
-    type: 'Leitura',
-    icon: 'book-bookmark',
-  },
-  {
-    title: '5 DICAS PARA FAZER BOAS FOTOS ',
-    type: 'Vídeo',
-    icon: 'video',
-    onPress: () => router.push('/docentify-screens/videoActivity'),
-  },
-  {
-    title: 'Vídeo introdutório X',
-    type: 'Vídeo',
-    icon: 'video',
-  },
+ 
    /*{
     title: 'Atividade introdutória X',
     type: 'Atividade (obrigatória)',
@@ -52,7 +33,7 @@ export default function CourseStructure() {
       <StatusBar backgroundColor="#111111" barStyle="light-content" />
       <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: '#f6f6f6' }}>
         <ImageBackground
-          source={require('../../assets/images/pencil.jpg')}
+          source={{uri: 'https://s2-g1.glbimg.com/-RlCvn2pdPU21J3kGIOaDN8ddbc=/0x0:1000x667/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_59edd422c0c84a879bd37670ae4f538a/internal_photos/bs/2024/f/g/vwxqkpSHCtN9ZnKvHTXQ/sesi-abre-vagas-para-cursos-ead.jpeg'}}
           style={styles.imageBackground}
         >
           <LinearGradient
@@ -61,8 +42,8 @@ export default function CourseStructure() {
           />
           <View style={styles.overlayContent}>
             <Text style={styles.moduleType}>Obrigatório</Text>
-            <Text style={styles.courseTitle}>Design Thinking em sala de aula</Text>
-            <Text style={styles.progressText}>6% concluído</Text>
+            <Text style={styles.courseTitle}>Introdução ao Docentify</Text>
+            <Text style={styles.progressText}>0% concluído</Text>
           </View>
         </ImageBackground>
 

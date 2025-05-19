@@ -14,8 +14,6 @@ const router = useRouter();
 
 export default function videoActivity(){
      const [isChecked, setChecked] = useState(false);
-  
-    const videoUrl = 'https://www.youtube.com/embed/ZDc17pyLeu0?si=8Sl1bxO31ztN-xTt';
 
     return(
         <SafeAreaView style={{ flex: 1, backgroundColor: '#111111' }}>
@@ -25,17 +23,8 @@ export default function videoActivity(){
                     <Text style={styles.etiqueta}>Obrigatório</Text>
                     <Text style={styles.titulo}>Design Thinking em sala de aula</Text>
                 </View>
-               
-                <View style={styles.videoContainer}>
-                    <WebView
-                    javaScriptEnabled={true}
-                    domStorageEnabled={true}
-                    source={{ uri: videoUrl }}
-                    style={styles.video}
-                    />
-                </View>
-
-                <Text style={styles.subtitulo}>Descrição de vídeo:</Text>
+            
+                <Text style={styles.subtitulo}>Leitura introdutória a Design Thinking</Text>
                 <Text style={styles.descricao}>
                     Design thinking é uma abordagem centrada no ser humano para a resolução de problemas complexos e desenvolvimento de ideias inovadoras. Originado no campo do design, esse método se popularizou por sua capacidade de integrar criatividade, empatia e análise para encontrar soluções eficazes.
                     {'\n'}Em seu cerne, o design thinking envolve uma série de fases interativas: entender o problema e as necessidades do usuário...
@@ -50,7 +39,7 @@ export default function videoActivity(){
                     <Text style={styles.checkboxLabel}>Confirmo que realizei a leitura do conteúdo.</Text>
                 </View>
 
-                <TouchableOpacity disabled={!isChecked}>
+                <TouchableOpacity disabled={!isChecked} onPress={() => router.push('/mockup/Course01/insideCourse')}>
                     <LinearGradient
                         colors={['#B4F757', '#80ED99']}
                         start={{ x: 0, y: 0 }}
@@ -69,8 +58,9 @@ export default function videoActivity(){
 
 const styles = StyleSheet.create({
   activityHeader: {
-    padding: 20,
-    backgroundColor: '#fff',
+    paddingTop: 20,
+    paddingBottom: 20,
+
   },
   etiqueta: {
     backgroundColor: '#FECF9F',
