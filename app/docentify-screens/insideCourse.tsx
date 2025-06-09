@@ -4,6 +4,11 @@ import { IconSymbol } from '@/components/ui/IconSymbol';
 import { useRouter } from 'expo-router';
 import { useState, useEffect } from 'react';
 
+import { useLocalSearchParams } from 'expo-router';
+
+const { id } = useLocalSearchParams();
+
+
 const router = useRouter();
 
 const courseStructure = [

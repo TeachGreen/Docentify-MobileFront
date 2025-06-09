@@ -11,6 +11,9 @@ import { useState } from 'react';
 
 const router = useRouter();
 
+import { useLocalSearchParams } from 'expo-router';
+const { id } = useLocalSearchParams();
+
 
 export default function videoActivity(){
      const [isChecked, setChecked] = useState(false);
