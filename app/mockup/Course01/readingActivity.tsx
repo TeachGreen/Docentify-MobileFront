@@ -11,10 +11,6 @@ import { useState } from 'react';
 
 const router = useRouter();
 
-import { useLocalSearchParams } from 'expo-router';
-const { id } = useLocalSearchParams();
-
-
 
 export default function videoActivity(){
      const [isChecked, setChecked] = useState(false);
@@ -43,7 +39,7 @@ export default function videoActivity(){
                     <Text style={styles.checkboxLabel}>Confirmo que realizei a leitura do conteúdo.</Text>
                 </View>
 
-                <TouchableOpacity disabled={!isChecked} onPress={() => router.push('/')}>
+                <TouchableOpacity disabled={!isChecked} onPress={() => router.push('/mockup/Course01/insideCourse')}>
                     <LinearGradient
                         colors={['#B4F757', '#80ED99']}
                         start={{ x: 0, y: 0 }}

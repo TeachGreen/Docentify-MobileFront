@@ -39,6 +39,7 @@ const MAPPING = {
   'file-text': 'file-text',
   'pen-to-square': 'pen-to-square',
   'filter': 'filter',
+  'check-circle': 'check-circle',
 
   //Rate app icon mapping
   'face-frown': 'face-frown',

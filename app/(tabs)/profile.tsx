@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Image, StyleSheet, Platform, View, ScrollView, SafeAreaView, StatusBar, Text, ImageBackground, TouchableOpacity } from 'react-native';
+import { Image, StyleSheet, Platform, View, ScrollView, SafeAreaView, StatusBar, Text, ImageBackground, TouchableOpacity, Alert } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -22,6 +22,23 @@ export default function ProfileScreen() {
     buscarNomeeEmail();
   }, []);
 
+
+  const handleLogout = async () => {
+  try {
+    await AsyncStorage.removeItem('token');
+    await AsyncStorage.removeItem('name');
+    await AsyncStorage.removeItem('email');
+
+    // ou limpa tudo se quiser remover tudo:
+    // await AsyncStorage.clear();
+
+    router.replace('/'); // ou para onde você quiser redirecionar
+  } catch (error) {
+    console.error('Erro ao fazer logout:', error);
+    Alert.alert('Erro', 'Não foi possível sair da conta.');
+  }
+};
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#111111' }}>
           <StatusBar  backgroundColor="#111111" barStyle="light-content"/>
@@ -40,15 +57,7 @@ export default function ProfileScreen() {
            
            
            <View style={styles.choicesProfile}>
-                <TouchableOpacity onPress={() => router.push('/docentify-screens/updateInfo')} style={styles.choiceContainer} >
-                   <View style={styles.choiceIconInfo}>
-                      <IconSymbol size={32} name='id-badge' color='#263238' />
-                      <Text style={{fontFamily: 'Poppins-Medium', fontSize: 16}}>Informações pessoais</Text>
-                   </View>
-                   <View>
-                      <IconSymbol size={32} name='arrow-right' color='#263238' />
-                   </View>
-                </TouchableOpacity>
+               
 
                 <TouchableOpacity style={styles.choiceContainer} onPress={() => router.push('/docentify-screens/settings')}>
                    <View style={styles.choiceIconInfo}>
@@ -59,9 +68,7 @@ export default function ProfileScreen() {
                       <IconSymbol size={32} name='arrow-right' color='#263238' />
                    </View>
                 </TouchableOpacity>
-
                 
-
                 <TouchableOpacity style={styles.choiceContainer} onPress={() => router.push('/docentify-screens/chatbot')}>
                    <View style={styles.choiceIconInfo}>
                       <IconSymbol size={32} name='message' color='#263238' />
@@ -82,7 +89,7 @@ export default function ProfileScreen() {
                    </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.choiceContainer}>
+                <TouchableOpacity style={styles.choiceContainer} onPress={handleLogout}>
                    <View style={styles.choiceIconInfo}>
                       <IconSymbol size={32} name='door-open' color='#263238' />
                       <Text style={{fontFamily: 'Poppins-Medium', fontSize: 16}}>Encerrar sessão</Text>
@@ -174,3 +181,17 @@ const styles = StyleSheet.create({
   },
   
 });
+
+/* <TouchableOpacity onPress={() => router.push('/docentify-screens/updateInfo')} style={styles.choiceContainer} >
+                   <View style={styles.choiceIconInfo}>
+                      <IconSymbol size={32} name='id-badge' color='#263238' />
+                      <Text style={{fontFamily: 'Poppins-Medium', fontSize: 16}}>Informações pessoais</Text>
+                   </View>
+                   <View>
+                      <IconSymbol size={32} name='arrow-right' color='#263238' />
+                   </View>
+                </TouchableOpacity>,
+                
+                
+                
+                */

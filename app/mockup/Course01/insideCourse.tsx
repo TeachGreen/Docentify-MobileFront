@@ -4,24 +4,15 @@ import { IconSymbol } from '@/components/ui/IconSymbol';
 import { useRouter } from 'expo-router';
 import { useState, useEffect } from 'react';
 
-import { useLocalSearchParams } from 'expo-router';
-
-const { id } = useLocalSearchParams();
-
-
 const router = useRouter();
 
 const courseStructure = [
   {
-    title: 'Imagem',
-    type: 'Imagem',
-    icon: 'check-circle',
-    completed: true,
-  },
-  {
     title: 'Infográfico de design thinking...',
     type: 'Imagem',
     icon: 'image',
+    completed:false,
+    onPress: () => router.push('/mockup/Course01/imageActivity'),
   },
   /*{
     title: 'Atividade introdutória X',
@@ -29,20 +20,11 @@ const courseStructure = [
     icon: 'file-text',
   },*/
   {
-    title: 'Leitura introdutória X',
+    title: 'Leitura introdutória a Design Thinking',
     type: 'Leitura',
     icon: 'book-bookmark',
-  },
-  {
-    title: '5 DICAS PARA FAZER BOAS FOTOS ',
-    type: 'Vídeo',
-    icon: 'video',
-    onPress: () => router.push('/docentify-screens/videoActivity'),
-  },
-  {
-    title: 'Vídeo introdutório X',
-    type: 'Vídeo',
-    icon: 'video',
+    completed: false,
+    onPress: () => router.push('/mockup/Course01/readingActivity'),
   },
    /*{
     title: 'Atividade introdutória X',
@@ -57,7 +39,7 @@ export default function CourseStructure() {
       <StatusBar backgroundColor="#111111" barStyle="light-content" />
       <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: '#f6f6f6' }}>
         <ImageBackground
-          source={require('../../assets/images/pencil.jpg')}
+          source={{uri: 'https://umbora.com/wp-content/uploads/2018/10/shutterstock_546477343.jpg'}}
           style={styles.imageBackground}
         >
           <LinearGradient
@@ -67,7 +49,7 @@ export default function CourseStructure() {
           <View style={styles.overlayContent}>
             <Text style={styles.moduleType}>Obrigatório</Text>
             <Text style={styles.courseTitle}>Design Thinking em sala de aula</Text>
-            <Text style={styles.progressText}>6% concluído</Text>
+            <Text style={styles.progressText}>0% concluído</Text>
           </View>
         </ImageBackground>
 

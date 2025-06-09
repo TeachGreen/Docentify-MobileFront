@@ -120,6 +120,112 @@ export default function RootLayout() {
       />
 
 
+      //Mockada
+
+      //Curso 1
+      <Stack.Screen 
+        name="mockup/Course01/insideCourse" 
+        options={{ headerShown: true, title: 'Resumo de curso' }}
+      />
+
+      <Stack.Screen 
+        name="mockup/Course01/imageActivity" 
+        options={{ headerShown: true, title: 'Voltar' }}
+      />
+
+      <Stack.Screen 
+        name="mockup/Course01/readingActivity" 
+        options={{ headerShown: true, title: 'Voltar' }}
+      />
+
+      //Curso 2 
+
+      <Stack.Screen 
+        name="mockup/Course02/notSubscribedCourse" 
+        options={{ headerShown: true, title: 'Fotografia com Smartphone' }}
+      />
+
+      <Stack.Screen 
+        name="mockup/Course02/insideCourse" 
+        options={{ headerShown: true, title: 'Resumo de curso' }}
+        
+      />
+
+      <Stack.Screen 
+        name="mockup/Course02/readingActivity01" 
+        options={{ headerShown: true, title: 'Voltar' }}
+
+      />
+
+      <Stack.Screen 
+        name="mockup/Course02/readingActivity02" 
+        options={{ headerShown: true, title: 'Voltar' }}
+
+      />
+
+      <Stack.Screen 
+        name="mockup/Course02/readingActivity03" 
+        options={{ headerShown: true, title: 'Voltar' }}
+
+      />
+
+      <Stack.Screen 
+        name="mockup/Course02/videoActivity" 
+        options={{ headerShown: true, title: 'Voltar' }}
+
+      />
+
+
+      //Curso 3
+
+        <Stack.Screen 
+        name="mockup/Course03/insideCourse" 
+        options={{ headerShown: true, title: 'Resumo de curso' }}
+      />
+
+      <Stack.Screen 
+        name="mockup/Course03/imageActivity" 
+        options={{ headerShown: true, title: 'Voltar' }}
+      />
+
+      <Stack.Screen 
+        name="mockup/Course03/readingActivity" 
+        options={{ headerShown: true, title: 'Voltar' }}
+      />
+
+      <Stack.Screen 
+        name="mockup/Course03/videoActivity" 
+        options={{ headerShown: true, title: 'Voltar' }}
+      />
+
+      //Curso 4
+
+      <Stack.Screen 
+        name="mockup/Course04/insideCourse" 
+        options={{ headerShown: true, title: 'Resumo de curso' }}
+      />
+
+      <Stack.Screen 
+        name="mockup/Course04/videoActivity" 
+        options={{ headerShown: true, title: 'Voltar' }}
+      />
+
+      <Stack.Screen 
+        name="mockup/Course04/videoActivity02" 
+        options={{ headerShown: true, title: 'Voltar' }}
+      />
+
+      //Curso 5
+
+      <Stack.Screen 
+        name="mockup/Course05/insideCourse" 
+        options={{ headerShown: true, title: 'Resumo de curso' }}
+      />
+
+      <Stack.Screen 
+        name="mockup/Course05/videoActivity" 
+        options={{ headerShown: true, title: 'Voltar' }}
+      />
 
     </Stack>
   );

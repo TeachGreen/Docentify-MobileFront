@@ -11,11 +11,14 @@ import { useState } from 'react';
 
 const router = useRouter();
 
+import { useLocalSearchParams } from 'expo-router';
+const { id } = useLocalSearchParams();
+
 
 export default function videoActivity(){
      const [isChecked, setChecked] = useState(false);
   
-    const videoUrl = 'https://www.youtube.com/embed/xdwK03WDJWk?si=Y3nM39UHVf2HtHfk';
+    const videoUrl = 'https://www.youtube.com/embed/ZDc17pyLeu0?si=8Sl1bxO31ztN-xTt';
 
     return(
         <SafeAreaView style={{ flex: 1, backgroundColor: '#111111' }}>

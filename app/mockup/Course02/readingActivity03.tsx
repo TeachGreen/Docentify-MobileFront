@@ -11,10 +11,6 @@ import { useState } from 'react';
 
 const router = useRouter();
 
-import { useLocalSearchParams } from 'expo-router';
-const { id } = useLocalSearchParams();
-
-
 
 export default function videoActivity(){
      const [isChecked, setChecked] = useState(false);
@@ -24,14 +20,19 @@ export default function videoActivity(){
             <StatusBar  backgroundColor="#111111" barStyle="light-content"/>
             <ScrollView showsVerticalScrollIndicator={false} style = {{backgroundColor: '#f6f6f6', paddingLeft: 24, paddingRight: 24}}>
                 <View style ={styles.activityHeader}>
-                    <Text style={styles.etiqueta}>Obrigatório</Text>
-                    <Text style={styles.titulo}>Design Thinking em sala de aula</Text>
+                    <Text style={styles.etiqueta}>Opcional</Text>
+                    <Text style={styles.titulo}>Fotografia com Smartphone</Text>
                 </View>
             
-                <Text style={styles.subtitulo}>Leitura introdutória a Design Thinking</Text>
+                <Text style={styles.subtitulo}>Luz e ângulo de fotos</Text>
                 <Text style={styles.descricao}>
-                    Design thinking é uma abordagem centrada no ser humano para a resolução de problemas complexos e desenvolvimento de ideias inovadoras. Originado no campo do design, esse método se popularizou por sua capacidade de integrar criatividade, empatia e análise para encontrar soluções eficazes.
-                    {'\n'}Em seu cerne, o design thinking envolve uma série de fases interativas: entender o problema e as necessidades do usuário...
+                    A luz e o ângulo são dois dos principais elementos que definem a qualidade e o impacto de uma foto. Saber observar e usar a luz corretamente pode transformar completamente uma imagem — mesmo que ela tenha sido feita com um celular simples.
+{'\n'}
+Nesta aula, você vai aprender como identificar a melhor iluminação para diferentes situações, seja luz natural ou artificial. Vamos falar sobre horários ideais para fotografar, como usar a luz do sol a seu favor e como evitar sombras indesejadas.
+{'\n'}
+Além disso, vamos explorar o poder dos ângulos. Mudar a posição da câmera, olhar de cima, de baixo ou de lado pode gerar resultados totalmente diferentes — e mais criativos. Você vai entender como pequenos ajustes na forma de olhar para a cena podem destacar detalhes e contar histórias mais interessantes através da imagem.
+{'\n'}
+Dominar luz e ângulo é essencial para dar mais vida às suas fotos. E o melhor: tudo isso está ao seu alcance, com o celular na mão e um olhar mais atento.
                 </Text>
 
 
@@ -43,7 +44,7 @@ export default function videoActivity(){
                     <Text style={styles.checkboxLabel}>Confirmo que realizei a leitura do conteúdo.</Text>
                 </View>
 
-                <TouchableOpacity disabled={!isChecked} onPress={() => router.push('/')}>
+                <TouchableOpacity disabled={!isChecked} onPress={() => router.push('/mockup/Course02/videoActivity')}>
                     <LinearGradient
                         colors={['#B4F757', '#80ED99']}
                         start={{ x: 0, y: 0 }}
@@ -67,13 +68,13 @@ const styles = StyleSheet.create({
 
   },
   etiqueta: {
-    backgroundColor: '#FECF9F',
+    backgroundColor: '#d4f5b3',
     alignSelf: 'flex-start',
     paddingHorizontal: 12,
     paddingVertical: 4,
     borderRadius: 6,
     fontWeight: 'bold',
-    color: '#6B3D00',
+    color: '#68BE12',
     marginBottom: 10,
   },
   titulo: {
