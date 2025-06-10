@@ -1,18 +1,29 @@
-import { StyleSheet, View, ScrollView, StatusBar, ImageBackground, TouchableOpacity, SafeAreaView, Text } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  StatusBar,
+  ImageBackground,
+  TouchableOpacity,
+  SafeAreaView,
+  Text,
+  Alert,
+} from 'react-native';
+
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-import { ThemedText } from '@/components/ThemedText';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { LinearGradient } from 'expo-linear-gradient';
 
-const BASE_URL = 'https://wa-docentify-api-c8cddtecgqgueudb.brazilsouth-01.azurewebsites.net/api';
+const BASE_URL =
+  'https://wa-docentify-api-c8cddtecgqgueudb.brazilsouth-01.azurewebsites.net/api';
 
 export default function NotSubscribedCourse() {
   const router = useRouter();
   const { id } = useLocalSearchParams();
   const [courseData, setCourseData] = useState<any>(null);
+  const [isEnrolling, setIsEnrolling] = useState(false);
 
   useEffect(() => {
     const fetchCourseDetails = async () => {
@@ -44,10 +55,53 @@ export default function NotSubscribedCourse() {
   const countByType = (type: number) =>
     courseData?.steps?.filter((step: any) => step.type === type).length || 0;
 
+  const enrollInCourse = async () => {
+    if (isEnrolling) return;
+    setIsEnrolling(true);
+
+    const token = await AsyncStorage.getItem('token');
+    if (!token || !id) return;
+
+    try {
+      const response = await fetch(`${BASE_URL}/Course/Enroll/${id}`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        const msg = await response.text();
+        console.error('Erro ao matricular:', response.status, msg);
+        Alert.alert('Erro', msg || 'Não foi possível realizar a matrícula.');
+        return;
+      }
+
+      Alert.alert('Sucesso', 'Matrícula realizada com sucesso!');
+      router.replace(`/docentify-screens/insideCourse?id=${id}`);
+    } catch (error) {
+      console.error('Erro de rede ao matricular:', error);
+      Alert.alert('Erro', 'Erro de rede ao tentar se matricular.');
+    } finally {
+      setIsEnrolling(false);
+    }
+  };
+
+  const handleActionButton = () => {
+    if (courseData?.isEnrolled) {
+      router.replace(`/docentify-screens/insideCourse?id=${id}`);
+    } else {
+      enrollInCourse();
+    }
+  };
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#111111' }}>
       <StatusBar backgroundColor="#111111" barStyle="light-content" />
-      <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: '#f6f6f6' }}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{ backgroundColor: '#f6f6f6' }}
+      >
         <ImageBackground
           source={
             courseData?.image
@@ -60,8 +114,18 @@ export default function NotSubscribedCourse() {
             colors={['transparent', 'rgba(0, 0, 0, 0.7)']}
             style={styles.gradient}
           />
-          <TouchableOpacity style={styles.enrollButton}>
-            <Text style={styles.enrollText}>Realizar minha matrícula</Text>
+          <TouchableOpacity
+            style={styles.enrollButton}
+            onPress={handleActionButton}
+            disabled={isEnrolling}
+          >
+            <Text style={styles.enrollText}>
+              {isEnrolling
+                ? 'Matriculando...'
+                : courseData?.isEnrolled
+                ? 'Continuar curso'
+                : 'Realizar minha matrícula'}
+            </Text>
           </TouchableOpacity>
         </ImageBackground>
 
@@ -108,21 +172,6 @@ export default function NotSubscribedCourse() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#fff',
-  },
-  header: {
-    backgroundColor: '#fff',
-  },
-  backButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 16,
-  },
-  backText: {
-    marginLeft: 8,
-    fontSize: 16,
-  },
   imageBackground: {
     height: 250,
     justifyContent: 'flex-end',
