@@ -61,21 +61,28 @@ export default function ChatbotScreen() {
       const token = await AsyncStorage.getItem('token');
       if (!token) throw new Error('Token não encontrado');
 
-      const response = await fetch('https://docentify-python-microservice-763843155433.us-east1.run.app/chatbot', {
+      const requestBody = {
+  user_message: trimmedInput,
+  context,
+};
+
+console.log('Enviando para o servidor:', requestBody);
+
+        const response = await fetch('https://docentify-python-microservice-763843155433.us-east1.run.app/chatbot', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer eyJlbWFpbCI6InBlZHJvaHRlam9uQGdtYWlsLmNvbSIsInVuaXF1ZV9uYW1lIjoiUGVkcm8gVGVqb24iLCJhdWQiOlsiVXNlcnMiLCJVc2VycyJdLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJVc2VycyIsImV4cCI6MTc0ODE3OTcyNiwiaXNzIjoiRG9jZW50aWZ5In0`,
         },
-        body: JSON.stringify({
-          user_message: trimmedInput,
-          context,
-        }),
-      });
+        body: JSON.stringify(requestBody),
+        });
 
       if (!response.ok) throw new Error('Erro ao se comunicar com o servidor');
 
       const data = await response.json();
+
+    
+
 
       const botMessage: Message = {
         id: Date.now().toString() + '_bot',
@@ -87,6 +94,8 @@ export default function ChatbotScreen() {
       setContext(data.context || { tentativas: 0 });
       flatListRef.current?.scrollToEnd({ animated: true });
 
+   
+      
     } catch (error) {
       console.error('Erro no chatbot:', error);
       Alert.alert('Erro', 'Não foi possível obter resposta do chatbot.');
