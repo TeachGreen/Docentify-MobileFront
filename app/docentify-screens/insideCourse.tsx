@@ -1,63 +1,100 @@
-import { StyleSheet, View, ScrollView, StatusBar, ImageBackground, SafeAreaView, Text, TouchableOpacity} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  StatusBar,
+  ImageBackground,
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { IconSymbol } from '@/components/ui/IconSymbol';
-import { useRouter } from 'expo-router';
+import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useState, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { useLocalSearchParams } from 'expo-router';
+const BASE_URL =
+  'https://wa-docentify-api-c8cddtecgqgueudb.brazilsouth-01.azurewebsites.net/api';
 
-const { id } = useLocalSearchParams();
+export default function InsideCourse() {
+  const { id } = useLocalSearchParams();
+  const router = useRouter();
+  const [courseData, setCourseData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    const fetchCourseWithSteps = async () => {
+      const token = await AsyncStorage.getItem('token');
+      if (!token || !id) return;
 
-const router = useRouter();
+      try {
+        const response = await fetch(`${BASE_URL}/Course/${id}/with-steps`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-const courseStructure = [
-  {
-    title: 'Imagem',
-    type: 'Imagem',
-    icon: 'check-circle',
-    completed: true,
-  },
-  {
-    title: 'Infográfico de design thinking...',
-    type: 'Imagem',
-    icon: 'image',
-  },
-  /*{
-    title: 'Atividade introdutória X',
-    type: 'Atividade (opcional)',
-    icon: 'file-text',
-  },*/
-  {
-    title: 'Leitura introdutória X',
-    type: 'Leitura',
-    icon: 'book-bookmark',
-  },
-  {
-    title: '5 DICAS PARA FAZER BOAS FOTOS ',
-    type: 'Vídeo',
-    icon: 'video',
-    onPress: () => router.push('/docentify-screens/videoActivity'),
-  },
-  {
-    title: 'Vídeo introdutório X',
-    type: 'Vídeo',
-    icon: 'video',
-  },
-   /*{
-    title: 'Atividade introdutória X',
-    type: 'Atividade (obrigatória)',
-    icon: 'file-text',
-  },*/
-];
+        if (!response.ok) {
+          console.error('Erro ao buscar curso com etapas:', await response.text());
+          return;
+        }
 
-export default function CourseStructure() {
+        const data = await response.json();
+        setCourseData(data);
+      } catch (error) {
+        console.error('Erro de rede:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCourseWithSteps();
+  }, [id]);
+
+  const navigateToActivity = (type: number, activityId: string) => {
+    if (!activityId) return;
+
+    switch (type) {
+      case 0:
+        router.push(`/docentify-screens/readingActivity?id=${activityId}`);
+        break;
+      case 1:
+        router.push(`/docentify-screens/videoActivity?id=${activityId}`);
+        break;
+      case 2:
+        router.push(`/docentify-screens/imageActivity?id=${activityId}`);
+        break;
+      case 3:
+        router.push(`/docentify-screens/examActivity?id=${activityId}`);
+        break;
+      default:
+        console.warn('Tipo de atividade desconhecido:', type);
+        break;
+    }
+  };
+
+  if (loading) {
+    return (
+      <SafeAreaView style={{ flex: 1, backgroundColor: '#111' }}>
+        <StatusBar backgroundColor="#111111" barStyle="light-content" />
+        <Text style={{ color: '#fff', textAlign: 'center', marginTop: 50 }}>
+          Carregando curso...
+        </Text>
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#111111' }}>
       <StatusBar backgroundColor="#111111" barStyle="light-content" />
       <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: '#f6f6f6' }}>
         <ImageBackground
-          source={require('../../assets/images/pencil.jpg')}
+          source={
+            courseData?.image
+              ? { uri: courseData.image }
+              : require('../../assets/images/pencil.jpg')
+          }
           style={styles.imageBackground}
         >
           <LinearGradient
@@ -65,42 +102,64 @@ export default function CourseStructure() {
             style={styles.gradient}
           />
           <View style={styles.overlayContent}>
-            <Text style={styles.moduleType}>Obrigatório</Text>
-            <Text style={styles.courseTitle}>Design Thinking em sala de aula</Text>
-            <Text style={styles.progressText}>6% concluído</Text>
+            <Text style={styles.moduleType}>
+              {courseData?.isRequired ? 'Obrigatório' : 'Opcional'}
+            </Text>
+            <Text style={styles.courseTitle}>{courseData?.name}</Text>
+            <Text style={styles.progressText}>Progresso do curso</Text>
           </View>
         </ImageBackground>
 
         <View style={styles.content}>
           <Text style={styles.sectionTitle}>Estrutura do curso</Text>
 
-           {courseStructure.map((item, index) => {
-            const Touchable = item.onPress ? TouchableOpacity : View;
-            return (
-              <Touchable
-                key={index}
-                onPress={item.onPress}
-                style={styles.itemBox}
-              >
-                <View style={styles.iconWrapper}>
-                  <IconSymbol
-                    size={24}
-                    name={item.completed ? 'check-circle' : item.icon}
-                    color={item.completed ? '#4CAF50' : '#0288D1'}
-                  />
-                </View>
-                <View style={styles.itemTextWrapper}>
-                  <Text style={styles.itemTitle}>{item.title}</Text>
-                  <Text style={styles.itemSubtitle}>{item.type}</Text>
-                </View>
-              </Touchable>
-            );
-          })}
+          {courseData?.steps?.map((step: any, index: number) => (
+            <TouchableOpacity
+              key={index}
+              onPress={() => navigateToActivity(step.type, step.activityId)}
+              style={styles.itemBox}
+              disabled={!step.activityId}
+            >
+              <View style={styles.iconWrapper}>
+                <IconSymbol
+                  size={24}
+                  name={step.isCompleted ? 'check-circle' : mapStepIcon(step.type)}
+                  color={step.isCompleted ? '#4CAF50' : '#0288D1'}
+                />
+              </View>
+              <View style={styles.itemTextWrapper}>
+                <Text style={styles.itemTitle}>{step.title}</Text>
+                <Text style={styles.itemSubtitle}>{mapStepType(step.type)}</Text>
+              </View>
+            </TouchableOpacity>
+          ))}
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 }
+
+// Traduz tipo numérico para nome
+const mapStepType = (type: number) => {
+  switch (type) {
+    case 0: return 'Leitura';
+    case 1: return 'Vídeo';
+    case 2: return 'Imagem';
+    case 3: return 'Atividade';
+    default: return 'Desconhecido';
+  }
+};
+
+// Mapeia tipo numérico para ícone
+const mapStepIcon = (type: number) => {
+  switch (type) {
+    case 0: return 'book-bookmark';
+    case 1: return 'video';
+    case 2: return 'image';
+    case 3: return 'file-text';
+    default: return 'file';
+  }
+};
 
 const styles = StyleSheet.create({
   imageBackground: {

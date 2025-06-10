@@ -107,8 +107,8 @@ export default function HomeScreen() {
           {/* Meus treinamentos */}
           <View style={styles.courseContainers}>
             <View style={styles.trainTitleContainers}>
-              <ThemedText style={styles.typeCourseView}>Meus treinamentos</ThemedText>
-              <ThemedText style={styles.moreCourses}>VER MAIS</ThemedText>
+              <ThemedText style={styles.typeCourseView}>Meus treinamentos obrigatórios</ThemedText>
+              <ThemedText style={styles.moreCourses} onPress={() => router.push('/(tabs)/courses')}>VER MAIS</ThemedText>
             </View>
             <View>
               <LinearGradient colors={["#F6F6F6", "transparent"]} style={styles.fadeLeft} />
@@ -122,8 +122,8 @@ export default function HomeScreen() {
           {/* Novos na plataforma */}
           <View style={styles.courseContainers}>
             <View style={styles.trainTitleContainers}>
-              <ThemedText style={styles.typeCourseView}>Novos na plataforma</ThemedText>
-              <ThemedText style={styles.moreCourses}>VER MAIS</ThemedText>
+              <ThemedText style={styles.typeCourseView}>Outros cursos na plataforma</ThemedText>
+              <ThemedText style={styles.moreCourses} onPress={() => router.push('/(tabs)/courses')}>VER MAIS</ThemedText>
             </View>
             <View>
               <LinearGradient colors={["#F6F6F6", "transparent"]} style={styles.fadeLeft} />
