@@ -1,95 +1,141 @@
-import {StyleSheet, View, ScrollView, StatusBar, SafeAreaView, TouchableOpacity, Dimensions, Text } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  StatusBar,
+  SafeAreaView,
+  Text,
+  ActivityIndicator,
+} from 'react-native';
 import Checkbox from 'expo-checkbox';
+import { useRouter, useLocalSearchParams } from 'expo-router';
+import { useState, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import CourseCard from '@/components/docentify-components/CourseCard';
-import GreetingSection from '@/components/docentify-components/GreetingSection';
-import { LinearGradient } from 'expo-linear-gradient';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import { useRouter } from 'expo-router';
-import { WebView } from 'react-native-webview';
-import { useState } from 'react';
+const BASE_URL = 'https://wa-docentify-api-c8cddtecgqgueudb.brazilsouth-01.azurewebsites.net/api';
 
-const router = useRouter();
+export default function ReadingActivity() {
+  const router = useRouter();
+  const { id } = useLocalSearchParams();
+  const [isChecked, setChecked] = useState(false);
+  const [stepData, setStepData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
-import { useLocalSearchParams } from 'expo-router';
-const { id } = useLocalSearchParams();
+  useEffect(() => {
+    const fetchStep = async () => {
+      const token = await AsyncStorage.getItem('token');
+      if (!token || !id) return;
 
+      try {
+        const response = await fetch(`${BASE_URL}/Step/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
+        if (!response.ok) {
+          console.error('Erro ao buscar etapa:', await response.text());
+          return;
+        }
 
-export default function videoActivity(){
-     const [isChecked, setChecked] = useState(false);
+        const data = await response.json();
+        setStepData(data);
+        setChecked(data.isCompleted); // estado inicial
+      } catch (error) {
+        console.error('Erro de rede:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    return(
-        <SafeAreaView style={{ flex: 1, backgroundColor: '#111111' }}>
-            <StatusBar  backgroundColor="#111111" barStyle="light-content"/>
-            <ScrollView showsVerticalScrollIndicator={false} style = {{backgroundColor: '#f6f6f6', paddingLeft: 24, paddingRight: 24}}>
-                <View style ={styles.activityHeader}>
-                    <Text style={styles.etiqueta}>Obrigatório</Text>
-                    <Text style={styles.titulo}>Design Thinking em sala de aula</Text>
-                </View>
-            
-                <Text style={styles.subtitulo}>Leitura introdutória a Design Thinking</Text>
-                <Text style={styles.descricao}>
-                    Design thinking é uma abordagem centrada no ser humano para a resolução de problemas complexos e desenvolvimento de ideias inovadoras. Originado no campo do design, esse método se popularizou por sua capacidade de integrar criatividade, empatia e análise para encontrar soluções eficazes.
-                    {'\n'}Em seu cerne, o design thinking envolve uma série de fases interativas: entender o problema e as necessidades do usuário...
-                </Text>
+    fetchStep();
+  }, [id]);
 
+  const handleCheckboxChange = async (newValue: boolean) => {
+    setChecked(newValue);
 
-                <View style={styles.checkboxContainer}>
-                    <Checkbox 
-          value={isChecked}
-          onValueChange={setChecked}
-          color={isChecked ? '#4630EB' : undefined} />
-                    <Text style={styles.checkboxLabel}>Confirmo que realizei a leitura do conteúdo.</Text>
-                </View>
+    if (newValue && !stepData?.isCompleted) {
+      const token = await AsyncStorage.getItem('token');
+      try {
+        const response = await fetch(`${BASE_URL}/Step/Complete/${stepData.id}`, {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-                <TouchableOpacity disabled={!isChecked} onPress={() => router.push('/')}>
-                    <LinearGradient
-                        colors={['#B4F757', '#80ED99']}
-                        start={{ x: 0, y: 0 }}
-                        end={{ x: 1, y: 1 }}
-                        style={[styles.botao, !isChecked && { opacity: 0.5 }]}
-                    >
-                        <Text style={styles.botaoTexto}>Próximo</Text>
-                    </LinearGradient>
-                </TouchableOpacity>
-                
-        </ScrollView>
-        </SafeAreaView>
- 
-  )
-};
+        const responseText = await response.text();
+        if (!response.ok) {
+          console.error('Erro ao concluir a etapa:', responseText);
+          return;
+        }
+
+        alert('Etapa concluída com sucesso!');
+      } catch (error) {
+        console.error('Erro de rede ao concluir etapa:', error);
+      }
+    }
+  };
+
+  if (loading) {
+    return (
+      <SafeAreaView style={{ flex: 1, backgroundColor: '#111' }}>
+        <StatusBar backgroundColor="#111111" barStyle="light-content" />
+        <Text style={{ color: '#fff', textAlign: 'center', marginTop: 50 }}>
+          Carregando leitura...
+        </Text>
+        <ActivityIndicator size="large" color="#80ED99" style={{ marginTop: 20 }} />
+      </SafeAreaView>
+    );
+  }
+
+  if (!stepData) {
+    return (
+      <SafeAreaView style={{ flex: 1, backgroundColor: '#111' }}>
+        <StatusBar backgroundColor="#111111" barStyle="light-content" />
+        <Text style={{ color: '#fff', textAlign: 'center', marginTop: 50 }}>
+          Leitura não encontrada.
+        </Text>
+      </SafeAreaView>
+    );
+  }
+
+  return (
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#111111' }}>
+      <StatusBar backgroundColor="#111111" barStyle="light-content" />
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{ backgroundColor: '#f6f6f6', paddingLeft: 24, paddingRight: 24 }}
+      >
+        <View style={styles.activityHeader}>
+          <Text style={styles.titulo}>{stepData.title}</Text>
+        </View>
+
+        <Text style={styles.subtitulo}>{stepData.description}</Text>
+        <Text style={styles.descricao}>{stepData.content}</Text>
+
+        <View style={styles.checkboxContainer}>
+          <Checkbox
+            value={isChecked}
+            onValueChange={handleCheckboxChange}
+            color={isChecked ? '#4630EB' : undefined}
+          />
+          <Text style={styles.checkboxLabel}>Confirmo que realizei a leitura do conteúdo.</Text>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
+}
 
 const styles = StyleSheet.create({
   activityHeader: {
     paddingTop: 20,
     paddingBottom: 20,
-
-  },
-  etiqueta: {
-    backgroundColor: '#FECF9F',
-    alignSelf: 'flex-start',
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-    borderRadius: 6,
-    fontWeight: 'bold',
-    color: '#6B3D00',
-    marginBottom: 10,
   },
   titulo: {
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 20,
-  },
-  videoContainer: {
-    flex: 1,
-    backgroundColor: '#000',
-    width: '100%',
-    height: 200,
-  },
-  video: {
-    width: '100%',
-    height: '100%',
   },
   subtitulo: {
     fontWeight: 'bold',
@@ -108,15 +154,5 @@ const styles = StyleSheet.create({
   checkboxLabel: {
     marginLeft: 10,
     fontSize: 14,
-  },
-  botao: {
-    borderRadius: 30,
-    paddingVertical: 16,
-    alignItems: 'center',
-  },
-  botaoTexto: {
-    color: '#1E1E1E',
-    fontWeight: 'bold',
-    fontSize: 16,
   },
 });

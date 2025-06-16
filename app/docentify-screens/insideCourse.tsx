@@ -4,14 +4,16 @@ import {
   ScrollView,
   StatusBar,
   ImageBackground,
+  TouchableOpacity,
   SafeAreaView,
   Text,
-  TouchableOpacity,
 } from 'react-native';
+
 import { LinearGradient } from 'expo-linear-gradient';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { useRouter, useLocalSearchParams } from 'expo-router';
-import { useState, useEffect } from 'react';
+import { useState, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const BASE_URL =
@@ -23,55 +25,64 @@ export default function InsideCourse() {
   const [courseData, setCourseData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchCourseWithSteps = async () => {
-      const token = await AsyncStorage.getItem('token');
-      if (!token || !id) return;
+  useFocusEffect(
+    useCallback(() => {
+      const fetchCourseWithSteps = async () => {
+        const token = await AsyncStorage.getItem('token');
+        if (!token || !id) return;
 
-      try {
-        const response = await fetch(`${BASE_URL}/Course/${id}/with-steps`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        try {
+          const response = await fetch(`${BASE_URL}/Course/${id}/with-steps`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
 
-        if (!response.ok) {
-          console.error('Erro ao buscar curso com etapas:', await response.text());
-          return;
+          if (!response.ok) {
+            console.error('Erro ao buscar curso com etapas:', await response.text());
+            return;
+          }
+
+          const data = await response.json();
+          setCourseData(data);
+        } catch (error) {
+          console.error('Erro de rede:', error);
+        } finally {
+          setLoading(false);
         }
+      };
 
-        const data = await response.json();
-        setCourseData(data);
-      } catch (error) {
-        console.error('Erro de rede:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+      fetchCourseWithSteps();
+    }, [id])
+  );
 
-    fetchCourseWithSteps();
-  }, [id]);
-
-  const navigateToActivity = (type: number, activityId: string) => {
-    if (!activityId) return;
+  const navigateToActivity = (type: number, id: number) => {
+    if (!id) {
+      console.warn('Sem activityId');
+      return;
+    }
 
     switch (type) {
-      case 0:
-        router.push(`/docentify-screens/readingActivity?id=${activityId}`);
-        break;
       case 1:
-        router.push(`/docentify-screens/videoActivity?id=${activityId}`);
+        router.push(`/docentify-screens/readingActivity?id=${id}`);
         break;
       case 2:
-        router.push(`/docentify-screens/imageActivity?id=${activityId}`);
+        router.push(`/docentify-screens/videoActivity?id=${id}`);
         break;
       case 3:
-        router.push(`/docentify-screens/examActivity?id=${activityId}`);
+        router.push(`/docentify-screens/examActivity?id=${id}`);
         break;
       default:
-        console.warn('Tipo de atividade desconhecido:', type);
+        console.warn('Tipo desconhecido:', type);
         break;
     }
+  };
+
+  const getProgressPercentage = () => {
+    if (!courseData?.steps?.length) return 0;
+    const completedSteps = courseData.steps.filter((s: any) => s.isCompleted).length;
+    const totalSteps = courseData.steps.length;
+    return Math.round((completedSteps / totalSteps) * 100);
   };
 
   if (loading) {
@@ -106,7 +117,9 @@ export default function InsideCourse() {
               {courseData?.isRequired ? 'Obrigatório' : 'Opcional'}
             </Text>
             <Text style={styles.courseTitle}>{courseData?.name}</Text>
-            <Text style={styles.progressText}>Progresso do curso</Text>
+            <Text style={styles.progressText}>
+              Progresso do curso: {getProgressPercentage()}%
+            </Text>
           </View>
         </ImageBackground>
 
@@ -116,9 +129,8 @@ export default function InsideCourse() {
           {courseData?.steps?.map((step: any, index: number) => (
             <TouchableOpacity
               key={index}
-              onPress={() => navigateToActivity(step.type, step.activityId)}
+              onPress={() => navigateToActivity(step.type, step.id)}
               style={styles.itemBox}
-              disabled={!step.activityId}
             >
               <View style={styles.iconWrapper}>
                 <IconSymbol
@@ -142,9 +154,8 @@ export default function InsideCourse() {
 // Traduz tipo numérico para nome
 const mapStepType = (type: number) => {
   switch (type) {
-    case 0: return 'Leitura';
-    case 1: return 'Vídeo';
-    case 2: return 'Imagem';
+    case 1: return 'Leitura';
+    case 2: return 'Vídeo';
     case 3: return 'Atividade';
     default: return 'Desconhecido';
   }
@@ -153,9 +164,8 @@ const mapStepType = (type: number) => {
 // Mapeia tipo numérico para ícone
 const mapStepIcon = (type: number) => {
   switch (type) {
-    case 0: return 'book-bookmark';
-    case 1: return 'video';
-    case 2: return 'image';
+    case 1: return 'book-bookmark';
+    case 2: return 'video';
     case 3: return 'file-text';
     default: return 'file';
   }

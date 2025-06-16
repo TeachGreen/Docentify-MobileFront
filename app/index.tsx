@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import {StyleSheet, View, ScrollView, StatusBar, Text, ImageBackground, SafeAreaView, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { Link } from 'expo-router';
 import { ThemedText } from '@/components/ThemedText';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { useRouter } from 'expo-router';
@@ -99,9 +100,11 @@ export default function HomeScreen() {
 
         <Text style={styles.orText}>OU</Text>
 
-        <TouchableOpacity>
-          <Text style={styles.registerText}>Cadastrar conta</Text>
-        </TouchableOpacity>
+        <Link href="/docentify-screens/signup" asChild>
+  <TouchableOpacity>
+    <Text style={styles.registerText}>Cadastrar conta</Text>
+  </TouchableOpacity>
+</Link>
 
       </View>
       </ScrollView>

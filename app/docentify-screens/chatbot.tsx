@@ -30,7 +30,7 @@ export default function ChatbotScreen() {
           setUserName(name);
           setMessages([{
             id: 'welcome',
-            text: `Olá ${name.split(' ')[0]}! Como posso te ajudar hoje?`,
+            text: `Olá ${name.split(' ')[0]}! Eu sou o IPzinho, seu assistente virtual na plataforma Docentify. Como posso te ajudar hoje?`,
             from: 'bot'
           }]);
         }
@@ -72,7 +72,7 @@ console.log('Enviando para o servidor:', requestBody);
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer eyJlbWFpbCI6InBlZHJvaHRlam9uQGdtYWlsLmNvbSIsInVuaXF1ZV9uYW1lIjoiUGVkcm8gVGVqb24iLCJhdWQiOlsiVXNlcnMiLCJVc2VycyJdLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJVc2VycyIsImV4cCI6MTc0ODE3OTcyNiwiaXNzIjoiRG9jZW50aWZ5In0`,
+            'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify(requestBody),
         });

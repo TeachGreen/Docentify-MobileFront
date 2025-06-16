@@ -141,23 +141,18 @@ export default function NotSubscribedCourse() {
           <View style={styles.item}>
             <IconSymbol size={24} name="video" color="#263238" />
             <Text style={styles.itemText}>
-              Vídeo-aulas ({countByType(1)} vídeo{countByType(1) !== 1 ? 's' : ''})
+              Vídeo-aulas ({countByType(2)} vídeo{countByType(2) !== 2 ? 's' : ''})
             </Text>
           </View>
 
           <View style={styles.item}>
             <IconSymbol size={24} name="book-bookmark" color="#263238" />
             <Text style={styles.itemText}>
-              Leituras ({countByType(0)} leitura{countByType(0) !== 1 ? 's' : ''})
+              Leituras ({countByType(1)} leitura{countByType(1) !== 1 ? 's' : ''})
             </Text>
           </View>
 
-          <View style={styles.item}>
-            <IconSymbol size={24} name="image" color="#263238" />
-            <Text style={styles.itemText}>
-              Imagens ({countByType(2)} imagem{countByType(2) !== 1 ? 's' : ''})
-            </Text>
-          </View>
+  
 
           <View style={styles.item}>
             <IconSymbol size={24} name="file-text" color="#263238" />
