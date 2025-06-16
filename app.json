@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "docentify-app",
+    "name": "Docentify",
     "slug": "docentify-app",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -13,9 +13,10 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/docentify-icon.png",
+        "foregroundImage": "./assets/images/docentifyminilogo.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "docentify.app"
     },
     "web": {
       "bundler": "metro",
@@ -36,6 +37,15 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "a0942609-bdaf-4c5b-a58f-32ea6dd7506e"
+      }
+    },
+    "owner": "thenamesgiu"
   }
 }

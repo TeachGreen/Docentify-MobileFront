@@ -52,68 +52,63 @@ export default function RootLayout() {
       <Stack.Screen name="(tabs)" />
 
 
-      //Configurações
+     
       <Stack.Screen 
         name="docentify-screens/settings" 
         options={{ headerShown: true, title: 'Configurações' }} 
       />
 
-      //Definições de segurança
       <Stack.Screen 
         name="docentify-screens/safety" 
         options={{ headerShown: true, title: 'Definições de segurança' }}
       />
 
-      //Redefinir senha
+  
+      <Stack.Screen 
+        name="docentify-screens/signup" 
+        options={{ headerShown: false}}
+      />
+    
+
+ 
       <Stack.Screen 
         name="docentify-screens/redefinePassword" 
-        options={{ headerShown: true, title: 'Redefinir senha' }}
+        options={{ headerShown: false}}
       />
 
 
-      //Resumo de curso opcional - não matriculado
       <Stack.Screen 
         name="docentify-screens/notSubscribedCourse" 
-        options={{ headerShown: true, title: 'Resumo curso fotografia' }} 
+        options={{ headerShown: true, title: 'Resumo de curso' }} 
       />
 
-      //Dentro de curso
       <Stack.Screen 
         name="docentify-screens/insideCourse" 
-        options={{ headerShown: true, title: 'Fotografia' }} 
+        options={{ headerShown: true, title: 'Estrutura de curso' }} 
       />
 
-      //Atividade do tipo leitura
+ 
       <Stack.Screen 
         name="docentify-screens/readingActivity" 
-        options={{ headerShown: true, title: 'Leitura introdutória' }} 
+        options={{ headerShown: true, title: 'Leitura de curso' }} 
       />
 
-      //Atividade do tipo video
       <Stack.Screen 
         name="docentify-screens/videoActivity" 
-        options={{ headerShown: true, title: 'Video introdutório' }}
+        options={{ headerShown: true, title: 'Video de curso' }}
       />
-
-      //Atividade do tipo infográfico
-      <Stack.Screen 
-        name="docentify-screens/imageActivity" 
-        options={{ headerShown: true, title: 'Infográfico introdutório' }}
-      />
-
-      //Atividade do tipo questionário
+      
       <Stack.Screen 
         name="docentify-screens/examActivity" 
         options={{ headerShown: true, title: 'Atividade avaliativa' }}
       />
 
-      //Chatbot
       <Stack.Screen 
         name="docentify-screens/chatbot" 
         options={{ headerShown: true, title: 'Conversa com IPzinho' }}
       />
 
-      //Atualizar informações
+     
       <Stack.Screen 
         name="docentify-screens/updateInfo" 
         options={{ headerShown: true, title: 'Atualizar informações' }}
