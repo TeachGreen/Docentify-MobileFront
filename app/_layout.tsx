@@ -104,6 +104,11 @@ export default function RootLayout() {
       />
 
       <Stack.Screen 
+        name="docentify-screens/insideExam" 
+        options={{ headerShown: true, title: 'Atividade avaliativa' }}
+      />
+
+      <Stack.Screen 
         name="docentify-screens/chatbot" 
         options={{ headerShown: true, title: 'Conversa com IPzinho' }}
       />

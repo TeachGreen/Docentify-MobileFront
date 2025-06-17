@@ -1,122 +1,131 @@
-import {StyleSheet, View, ScrollView, StatusBar, SafeAreaView, TouchableOpacity, Dimensions, Text } from 'react-native';
-import Checkbox from 'expo-checkbox';
+// ✅ examActivity.tsx
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  StatusBar,
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
 
-import CourseCard from '@/components/docentify-components/CourseCard';
-import GreetingSection from '@/components/docentify-components/GreetingSection';
-import { LinearGradient } from 'expo-linear-gradient';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import { useRouter } from 'expo-router';
-import { WebView } from 'react-native-webview';
-import { useState } from 'react';
+import { useRouter, useLocalSearchParams } from 'expo-router';
+import { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const router = useRouter();
+const BASE_URL = 'https://wa-docentify-api-c8cddtecgqgueudb.brazilsouth-01.azurewebsites.net/api';
 
-import { useLocalSearchParams } from 'expo-router';
-const { id } = useLocalSearchParams();
+export default function AssessmentIntro() {
+  const router = useRouter();
+  const { id: stepId } = useLocalSearchParams();
+  const [activity, setActivity] = useState<any>(null);
 
+  useEffect(() => {
+    const fetchActivityFromStep = async () => {
+      const token = await AsyncStorage.getItem('token');
+      if (!token || !stepId) return;
 
+      try {
+        const response = await fetch(`${BASE_URL}/Activity/Step/${stepId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (!response.ok) return;
+        const data = await response.json();
+        return data?.id;
+      } catch (error) {
+        console.error('Erro ao buscar activityId:', error);
+        return null;
+      }
+    };
 
-export default function videoActivity(){
-     const [isChecked, setChecked] = useState(false);
+    const fetchActivityData = async () => {
+      const token = await AsyncStorage.getItem('token');
+      if (!token || !stepId) return;
 
-    return(
-        <SafeAreaView style={{ flex: 1, backgroundColor: '#111111' }}>
-            <StatusBar  backgroundColor="#111111" barStyle="light-content"/>
-            <ScrollView showsVerticalScrollIndicator={false} style = {{backgroundColor: '#f6f6f6', paddingLeft: 24, paddingRight: 24}}>
-                <View style ={styles.activityHeader}>
-                    <Text style={styles.etiqueta}>Obrigatório</Text>
-                    <Text style={styles.titulo}>Design Thinking em sala de aula</Text>
-                </View>
-            
-                <Text style={styles.subtitulo}>Leitura introdutória a Design Thinking</Text>
-                <Text style={styles.descricao}>
-                    Design thinking é uma abordagem centrada no ser humano para a resolução de problemas complexos e desenvolvimento de ideias inovadoras. Originado no campo do design, esse método se popularizou por sua capacidade de integrar criatividade, empatia e análise para encontrar soluções eficazes.
-                    {'\n'}Em seu cerne, o design thinking envolve uma série de fases interativas: entender o problema e as necessidades do usuário...
-                </Text>
+      const activityId = await fetchActivityFromStep();
+      if (!activityId) return;
 
+      const response = await fetch(`${BASE_URL}/Activity/${activityId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
-                <View style={styles.checkboxContainer}>
-                    <Checkbox 
-          value={isChecked}
-          onValueChange={setChecked}
-          color={isChecked ? '#4630EB' : undefined} />
-                    <Text style={styles.checkboxLabel}>Confirmo que realizei a leitura do conteúdo.</Text>
-                </View>
+      const data = await response.json();
+      setActivity(data);
+    };
 
-                <TouchableOpacity disabled={!isChecked} onPress={() => router.push('/')}>
-                    <LinearGradient
-                        colors={['#B4F757', '#80ED99']}
-                        start={{ x: 0, y: 0 }}
-                        end={{ x: 1, y: 1 }}
-                        style={[styles.botao, !isChecked && { opacity: 0.5 }]}
-                    >
-                        <Text style={styles.botaoTexto}>Próximo</Text>
-                    </LinearGradient>
-                </TouchableOpacity>
-                
-        </ScrollView>
-        </SafeAreaView>
- 
-  )
-};
+    fetchActivityData();
+  }, [stepId]);
+
+  if (!activity) {
+    return (
+      <SafeAreaView style={styles.loadingContainer}>
+        <Text style={styles.loadingText}>Carregando atividade...</Text>
+      </SafeAreaView>
+    );
+  }
+
+  const nota1 = activity.attempts?.find((a: any) => a.number === 1)?.score ?? '-';
+  const nota2 = activity.attempts?.find((a: any) => a.number === 2)?.score ?? '-';
+  const notaFinal = Math.max(nota1 !== '-' ? nota1 : 0, nota2 !== '-' ? nota2 : 0);
+  const isCompleted = activity.attempts?.length >= 2 && notaFinal >= 5;
+
+  const handleStart = () => {
+    if (activity && !isCompleted) {
+      router.push({
+        pathname: '/docentify-screens/insideExam',
+        params: { id: activity.id },
+      });
+    }
+  };
+
+  return (
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }}>
+      <StatusBar backgroundColor="#ffffff" barStyle="dark-content" />
+      <ScrollView contentContainerStyle={styles.container}>
+        <Text style={styles.titulo}>{activity.title}</Text>
+        <Text style={styles.subtitulo}>Atividade avaliativa</Text>
+
+        <Text style={styles.descricao}>
+          Essa é uma atividade de um treinamento. Há duas tentativas para cada atividade. A maior nota entre as duas tentativas é mantida.
+        </Text>
+
+        <View style={styles.tabela}>
+          <View style={styles.tabelaCabecalho}>
+            <Text style={styles.tabelaCelulaCabecalho}>1ª tentativa</Text>
+            <Text style={styles.tabelaCelulaCabecalho}>2ª tentativa</Text>
+            <Text style={styles.tabelaCelulaCabecalho}>Nota mantida</Text>
+          </View>
+          <View style={styles.tabelaLinha}>
+            <Text style={styles.tabelaCelula}>{nota1}</Text>
+            <Text style={styles.tabelaCelula}>{nota2}</Text>
+            <Text style={styles.tabelaCelula}>{notaFinal}</Text>
+          </View>
+        </View>
+
+        <TouchableOpacity
+          style={[styles.botao, isCompleted && { backgroundColor: '#ccc' }]}
+          onPress={handleStart}
+          disabled={isCompleted}
+        >
+          <Text style={[styles.botaoTexto, isCompleted && { color: '#888' }]}>Iniciar</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </SafeAreaView>
+  );
+}
 
 const styles = StyleSheet.create({
-  activityHeader: {
-    paddingTop: 20,
-    paddingBottom: 20,
-
-  },
-  etiqueta: {
-    backgroundColor: '#FECF9F',
-    alignSelf: 'flex-start',
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-    borderRadius: 6,
-    fontWeight: 'bold',
-    color: '#6B3D00',
-    marginBottom: 10,
-  },
-  titulo: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  videoContainer: {
-    flex: 1,
-    backgroundColor: '#000',
-    width: '100%',
-    height: 200,
-  },
-  video: {
-    width: '100%',
-    height: '100%',
-  },
-  subtitulo: {
-    fontWeight: 'bold',
-    marginBottom: 6,
-  },
-  descricao: {
-    color: '#444',
-    fontSize: 14,
-    marginBottom: 20,
-  },
-  checkboxContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 30,
-  },
-  checkboxLabel: {
-    marginLeft: 10,
-    fontSize: 14,
-  },
-  botao: {
-    borderRadius: 30,
-    paddingVertical: 16,
-    alignItems: 'center',
-  },
-  botaoTexto: {
-    color: '#1E1E1E',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
+  container: { padding: 24 },
+  loadingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  loadingText: { color: '#333', fontSize: 16 },
+  titulo: { fontSize: 18, fontWeight: 'bold', marginBottom: 16 },
+  subtitulo: { fontSize: 16, fontWeight: '600', marginBottom: 8 },
+  descricao: { fontSize: 14, color: '#444', marginBottom: 16 },
+  tabela: { borderWidth: 1, borderColor: '#ccc', borderRadius: 8, marginBottom: 24 },
+  tabelaCabecalho: { flexDirection: 'row', backgroundColor: '#f0f0f0' },
+  tabelaLinha: { flexDirection: 'row' },
+  tabelaCelulaCabecalho: { flex: 1, padding: 10, fontWeight: 'bold', textAlign: 'center' },
+  tabelaCelula: { flex: 1, padding: 10, textAlign: 'center' },
+  botao: { backgroundColor: '#80ED99', paddingVertical: 14, borderRadius: 24, alignItems: 'center' },
+  botaoTexto: { color: '#000', fontWeight: 'bold', fontSize: 16 },
 });

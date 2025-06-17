@@ -1,15 +1,22 @@
-import { StyleSheet, StatusBar, View, ScrollView, Text, SafeAreaView } from 'react-native';
+import {
+  StyleSheet,
+  StatusBar,
+  View,
+  ScrollView,
+  Text,
+  SafeAreaView,
+} from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback, useState } from 'react';
+import { useRouter } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import CourseGreetingSection from '@/components/docentify-components/CourseGreetingSection';
 import CourseCard from '@/components/docentify-components/CourseCard';
 import { IconSymbol } from '@/components/ui/IconSymbol';
-import { ThemedText } from '@/components/ThemedText';
-import { useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const router = useRouter();
-
-const BASE_URL = 'https://wa-docentify-api-c8cddtecgqgueudb.brazilsouth-01.azurewebsites.net/api';
+const BASE_URL =
+  'https://wa-docentify-api-c8cddtecgqgueudb.brazilsouth-01.azurewebsites.net/api';
 
 type Course = {
   id: number;
@@ -20,6 +27,7 @@ type Course = {
 };
 
 export default function CoursesScreen() {
+  const router = useRouter();
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -83,31 +91,34 @@ export default function CoursesScreen() {
     return Math.round((completedSteps / steps.length) * 100);
   };
 
-  useEffect(() => {
-    const loadCourses = async () => {
-      setLoading(true);
-      const allCourses = await fetchCourses();
+  const loadCourses = async () => {
+    setLoading(true);
+    const allCourses = await fetchCourses();
 
-      const coursesWithProgress = await Promise.all(
-        allCourses.map(async (course: any) => {
-          const detailed = await fetchCourseWithSteps(course.id);
-          const progress = detailed ? calculateProgress(detailed.steps) : 0;
-          return {
-            id: course.id,
-            name: course.name,
-            isRequired: course.isRequired,
-            isEnrolled: course.isEnrolled,
-            progress,
-          };
-        })
-      );
+    const coursesWithProgress = await Promise.all(
+      allCourses.map(async (course: any) => {
+        const detailed = await fetchCourseWithSteps(course.id);
+        const progress = detailed ? calculateProgress(detailed.steps) : 0;
+        return {
+          id: course.id,
+          name: course.name,
+          isRequired: course.isRequired,
+          isEnrolled: course.isEnrolled,
+          progress,
+        };
+      })
+    );
 
-      setCourses(coursesWithProgress);
-      setLoading(false);
-    };
+    setCourses(coursesWithProgress);
+    setLoading(false);
+  };
 
-    loadCourses();
-  }, []);
+  // Atualiza os dados sempre que volta pra tela
+  useFocusEffect(
+    useCallback(() => {
+      loadCourses();
+    }, [])
+  );
 
   const renderCourses = (courses: Course[]) =>
     courses.map((course) => (
@@ -131,7 +142,9 @@ export default function CoursesScreen() {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: '#111' }}>
         <StatusBar backgroundColor="#111111" barStyle="light-content" />
-        <Text style={{ color: '#fff', textAlign: 'center', marginTop: 50 }}>Carregando cursos...</Text>
+        <Text style={{ color: '#fff', textAlign: 'center', marginTop: 50 }}>
+          Carregando cursos...
+        </Text>
       </SafeAreaView>
     );
   }
@@ -139,26 +152,40 @@ export default function CoursesScreen() {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#111111' }}>
       <StatusBar backgroundColor="#111111" barStyle="light-content" />
-      <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: '#f6f6f6' }}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{ backgroundColor: '#f6f6f6' }}
+      >
         <View style={styles.navHeader}>
           <View style={styles.leftContent}>
-            <IconSymbol size={32} name="gear" color="#263238" onPress={() => router.push('/docentify-screens/settings')} />
+            <IconSymbol
+              size={32}
+              name="gear"
+              color="#263238"
+              onPress={() => router.push('/docentify-screens/settings')}
+            />
           </View>
           <View style={styles.rightContent}>
-            <IconSymbol size={32} name="magnifying-glass" color="#263238" />
+          
           </View>
         </View>
 
-        <View>
-          <CourseGreetingSection />
-        </View>
+        <CourseGreetingSection />
 
         <View style={styles.viewBody}>
           <View style={styles.filterSection}>
             <View style={styles.filterTitle}>
-              <Text style={{ fontSize: 24, fontFamily: 'Poppins-Medium' }}>Todos os treinamentos</Text>
+              <Text style={{ fontSize: 24, fontFamily: 'Poppins-Medium' }}>
+                Todos os treinamentos
+              </Text>
             </View>
-            <Text style={{ fontSize: 16, fontFamily: 'Poppins-Regular', color: '#53646D' }}>
+            <Text
+              style={{
+                fontSize: 16,
+                fontFamily: 'Poppins-Regular',
+                color: '#53646D',
+              }}
+            >
               Navegue pelos treinamentos disponíveis para sua instituição.
             </Text>
           </View>
