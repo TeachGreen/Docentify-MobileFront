@@ -25,7 +25,7 @@ export default function RankingScreen() {
             <IconSymbol size={32} name='gear' color='#263238' onPress={() => router.push('/docentify-screens/settings')}/>
           </View>
           <View style={styles.rightContent}>
-            <IconSymbol size={32} name='magnifying-glass' color='#263238'/>
+           
           </View>
         </View>
         
